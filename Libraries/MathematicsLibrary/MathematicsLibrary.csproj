@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{861E7893-2264-41C5-A589-B574DD8AD6E0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathematicsLibrary</RootNamespace>
+    <AssemblyName>MathematicsLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CustomUserControlsLibrary">
+      <HintPath>..\..\DLLs\CustomUserControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Functions\MathematicalFunction.cs" />
+    <Compile Include="Functions\Polynomial.cs" />
+    <Compile Include="Functions\QuadraticFunction.cs" />
+    <Compile Include="Geometry\Point2D.cs" />
+    <Compile Include="Geometry\Point3D.cs" />
+    <Compile Include="Geometry\PointND.cs" />
+    <Compile Include="Geometry\Vector3D.cs" />
+    <Compile Include="Interpolation\BezierCurve.cs" />
+    <Compile Include="Interpolation\BezierSpline.cs" />
+    <Compile Include="Interpolation\BezierCurveViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interpolation\BezierCurveViewer.Designer.cs">
+      <DependentUpon>BezierCurveViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interpolation\LinearInterpolation.cs" />
+    <Compile Include="Matrices\LevinsonDurbinRecursion.cs" />
+    <Compile Include="Matrices\Matrix.cs" />
+    <Compile Include="ProbabilityDistributions\GaussianDistribution.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalProcessing\AutoCorrelation.cs" />
+    <Compile Include="SignalProcessing\AveragingFilter.cs" />
+    <Compile Include="SignalProcessing\FirstOrderLowPassFilter.cs" />
+    <Compile Include="SignalProcessing\LinearDigitalFilter.cs" />
+    <Compile Include="Statistics\Variance.cs" />
+    <Compile Include="Vectors\Vector.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

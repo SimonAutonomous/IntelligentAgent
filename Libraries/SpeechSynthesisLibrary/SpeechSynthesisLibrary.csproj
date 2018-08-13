@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E1CE5314-26E5-440A-9AD4-08F6B6EF08D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpeechSynthesisLibrary</RootNamespace>
+    <AssemblyName>SpeechSynthesisLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CustomUserControlsLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLLs\CustomUserControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormantSynthesis\AntiResonator.cs" />
+    <Compile Include="FormantSynthesis\DampedSinusoid.cs" />
+    <Compile Include="FormantSynthesis\FormantSettingsEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormantSynthesis\FormantSettingsEditor.Designer.cs">
+      <DependentUpon>FormantSettingsEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormantSynthesis\FormantSettings.cs" />
+    <Compile Include="FormantSynthesis\FormantSpecification.cs" />
+    <Compile Include="FormantSynthesis\PulseSignal.cs" />
+    <Compile Include="FormantSynthesis\Resonator.cs" />
+    <Compile Include="FormantSynthesis\FormantSpeechSynthesizer.cs" />
+    <Compile Include="FormantSynthesis\WordToSoundMapping.cs" />
+    <Compile Include="FormantSynthesis\WordToSoundMappingEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormantSynthesis\WordToSoundMappingEditor.Designer.cs">
+      <DependentUpon>WordToSoundMappingEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpeechSynthesizer.cs" />
+    <Compile Include="TDPSOLA\PitchMarkEstimator.cs" />
+    <Compile Include="TDPSOLA\PitchMarkSpecification.cs" />
+    <Compile Include="TDPSOLA\PitchPeriodEstimator.cs" />
+    <Compile Include="TDPSOLA\PitchPeriodSpecification.cs" />
+    <Compile Include="TDPSOLA\SpeechModifier.cs" />
+    <Compile Include="TDPSOLA\SpeechType.cs" />
+    <Compile Include="TDPSOLA\SpeechTypeEstimator.cs" />
+    <Compile Include="TDPSOLA\SpeechTypeSpecification.cs" />
+    <Compile Include="Visualization\SpeechVisualizer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Visualization\SpeechVisualizer.Designer.cs">
+      <DependentUpon>SpeechVisualizer.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AudioLibrary\AudioLibrary.csproj">
+      <Project>{1253F8F6-FADD-478B-98FB-2FAAF5E95D2C}</Project>
+      <Name>AudioLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MathematicsLibrary\MathematicsLibrary.csproj">
+      <Project>{861E7893-2264-41C5-A589-B574DD8AD6E0}</Project>
+      <Name>MathematicsLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

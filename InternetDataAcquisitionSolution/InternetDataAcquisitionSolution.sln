@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetDataAcquisitionLibrary", "..\Libraries\InternetDataAcquisitionLibrary\InternetDataAcquisitionLibrary.csproj", "{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSSReaderApplication", "RSSReaderApplication\RSSReaderApplication.csproj", "{AD8F0922-662A-4051-8BE1-4852308C2EFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Debug|x86.Build.0 = Debug|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Release|x86.ActiveCfg = Release|Any CPU
+		{C67420C1-6D52-43D1-BCCA-947C7BB8A53B}.Release|x86.Build.0 = Release|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD8F0922-662A-4051-8BE1-4852308C2EFD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

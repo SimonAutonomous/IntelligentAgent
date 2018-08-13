@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceEditorApplication", "FaceEditorApplication\FaceEditorApplication.csproj", "{D8941F74-B379-4105-8BA0-05FEE0C272AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphere3DApplication", "Sphere3DApplication\Sphere3DApplication.csproj", "{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeDimensionalVisualizationLibrary", "..\Libraries\ThreeDimensionalVisualizationLibrary\ThreeDimensionalVisualizationLibrary.csproj", "{42BEC207-A20B-4D36-A375-5CD84AFEEE94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectSerializerLibrary", "..\Libraries\ObjectSerializerLibrary\ObjectSerializerLibrary.csproj", "{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8941F74-B379-4105-8BA0-05FEE0C272AF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D8941F74-B379-4105-8BA0-05FEE0C272AF}.Debug|x86.ActiveCfg = Debug|x86
+		{D8941F74-B379-4105-8BA0-05FEE0C272AF}.Debug|x86.Build.0 = Debug|x86
+		{D8941F74-B379-4105-8BA0-05FEE0C272AF}.Release|Any CPU.ActiveCfg = Release|x86
+		{D8941F74-B379-4105-8BA0-05FEE0C272AF}.Release|x86.ActiveCfg = Release|x86
+		{D8941F74-B379-4105-8BA0-05FEE0C272AF}.Release|x86.Build.0 = Release|x86
+		{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}.Debug|x86.ActiveCfg = Debug|x86
+		{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}.Debug|x86.Build.0 = Debug|x86
+		{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}.Release|Any CPU.ActiveCfg = Release|x86
+		{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}.Release|x86.ActiveCfg = Release|x86
+		{FD3BF036-35CF-4358-BD4A-CA94AC8A96D6}.Release|x86.Build.0 = Release|x86
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Debug|x86.Build.0 = Debug|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Release|x86.ActiveCfg = Release|Any CPU
+		{42BEC207-A20B-4D36-A375-5CD84AFEEE94}.Release|x86.Build.0 = Release|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Debug|x86.Build.0 = Debug|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Release|x86.ActiveCfg = Release|Any CPU
+		{B27A4215-2AC9-4DB2-8F7F-E68DE3109E23}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

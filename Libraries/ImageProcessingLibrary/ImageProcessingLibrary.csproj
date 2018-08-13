@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BBD065DF-402B-45DD-ABF0-E7FE66DBC8A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ImageProcessingLibrary</RootNamespace>
+    <AssemblyName>ImageProcessingLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CustomUserControlsLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLLs\CustomUserControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectShowLib-2005, Version=2.0.0.0, Culture=neutral, PublicKeyToken=67e7b740cdfc2d3f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DirectShowLib-2005.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Cameras\CameraResolution.cs" />
+    <Compile Include="Cameras\CameraSetupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cameras\CameraSetupControl.Designer.cs">
+      <DependentUpon>CameraSetupControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cameras\CameraViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Cameras\CameraViewControl.Designer.cs">
+      <DependentUpon>CameraViewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cameras\CaptureDevice.cs" />
+    <Compile Include="Cameras\CameraPropertySettings.cs" />
+    <Compile Include="ColorChannel.cs" />
+    <Compile Include="MotionDetection\FrameDifferencing.cs" />
+    <Compile Include="MotionDetection\GaussianExponentialAveraging.cs" />
+    <Compile Include="MotionDetection\MotionDetectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotionDetection\MotionDetectionControl.Designer.cs">
+      <DependentUpon>MotionDetectionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotionDetection\MotionDetector.cs" />
+    <Compile Include="ImageHistogram.cs" />
+    <Compile Include="ImageProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimerResolution.cs" />
+    <Compile Include="Visualization\HistogramPlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Visualization\HistogramPlot.Designer.cs">
+      <DependentUpon>HistogramPlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visualization\ImagePlot.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Visualization\ImagePlot.Designer.cs">
+      <DependentUpon>ImagePlot.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Cameras\CameraSetupControl.resx">
+      <DependentUpon>CameraSetupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cameras\CameraViewControl.resx">
+      <DependentUpon>CameraViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotionDetection\MotionDetectionControl.resx">
+      <DependentUpon>MotionDetectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
