@@ -82,8 +82,27 @@ namespace AgentApplication
                 Debug.WriteLine(user.Name);
             }
 
-            ObjectXmlSerializer sdata = new ObjectXmlSerializer();
-            sdata.SerializeObject("test", movie1, new List<Type> Movie);
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //SERIALIZATION
+            //https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/data-contract-known-types
+            //TODO: how to use without changing library?
+            //ObjectXmlSerializer sdata = new ObjectXmlSerializer();
+            List<Type> typeList = new List<Type>();
+            typeList.Add(Type.GetType("Dicitonary"));
+            ObjectXmlSerializer.SerializeObject("test", user1, typeList);
+
+            ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+
+            User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+
+            user10.Ratings.Add(movie3, 3);
+
+            foreach (var user10Rating in user10.Ratings)
+            {
+                Debug.Write(user10Rating.Value);
+            }
+            //-----------------------------------------------------------------------------------------------------------------
 
 
             //foreach (var rating in user1.Ratings)

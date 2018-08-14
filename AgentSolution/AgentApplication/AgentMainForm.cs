@@ -220,6 +220,45 @@ namespace AgentApplication
         }
 
         #region Agent dialogues
+
+        // User introduction
+        private void GenerateIntroductionDialogue()
+        {
+            Boolean isAlwaysAvailable = true;
+            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
+            int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
+
+            Dialogue introductionDialogue = new Dialogue("Introduction", isAlwaysAvailable);
+
+
+            // Item TR1: User requests the current time
+            InputItem itemTR1 = new InputItem("TR1", new List<string>() { AgentConstants.QUERY_TAG_1 },
+                inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            InputAction inputActionTR1 = new InputAction(introductionDialogue.Context, "TR2");
+            inputActionTR1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_1));
+            itemTR1.InputActionList.Add(inputActionTR1);
+            introductionDialogue.DialogueItemList.Add(itemTR1);
+
+            //// Item TR2: The agent responds
+            //TimeItem itemTR2 = new TimeItem("TR2");
+            //itemTR2.OutputAction = new OutputAction("", ""); // Abandon this context after completing the output
+            //itemTR2.OutputAction.PatternList.Add(new Pattern("It is "));
+            //itemTR2.OutputAction.PatternList.Add(new Pattern("The time is "));
+            //timeDialogue.DialogueItemList.Add(itemTR2);
+
+            agent.DialogueList.Add(introductionDialogue);
+
+            //// The user asks a question of the form "What is a <Q>"?
+            //InputItem itemWI1 = new InputItem("WI1", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2 },
+            //    inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            //InputAction inputActionWI1 = new InputAction(whoIsDialogue.Context, "WI2");
+            //inputActionWI1.PatternList.Add(new Pattern("Who is" + " " + AgentConstants.QUERY_TAG_1 + " " +
+            //                                           AgentConstants.QUERY_TAG_2));
+            //itemWI1.InputActionList.Add(inputActionWI1);
+            //whoIsDialogue.DialogueItemList.Add(itemWI1);
+        }
+
+
         // This dialogue is not really a dialogue - it simply opens the eyes of the agent
         private void GenerateWakeUpDialogue()
         {

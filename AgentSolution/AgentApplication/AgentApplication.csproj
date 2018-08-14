@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\User.cs" />
+    <Compile Include="AddedClasses\UserIntroductionItem.cs" />
     <Compile Include="AgentMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
