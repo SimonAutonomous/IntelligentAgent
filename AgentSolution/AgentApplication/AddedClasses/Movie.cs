@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AgentApplication.AddedClasses
 {
+    [DataContract]
     public class Movie
     {
-        public string Title { get; }
-        public int Year { get; }
-        public double ImdbRating { get; }
+        [DataMember]
+        public string Title { get; set; }
+        [DataMember]
+        public int Year { get; set; }
+        [DataMember]
+        public double ImdbRating { get; set; }
 
         public Movie()
         {

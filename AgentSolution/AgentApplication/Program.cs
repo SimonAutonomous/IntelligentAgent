@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgentApplication.AddedClasses;
+using System.Runtime.Serialization;
+using ObjectSerializerLibrary;
 
 namespace AgentApplication
 {
@@ -54,7 +57,7 @@ namespace AgentApplication
 
 
 
-            User user1 = new User("TestUser");
+            User user1 = new User("TestUser", false);
 
             Movie movie1 = new Movie();
             Movie movie2 = new Movie();
@@ -69,15 +72,19 @@ namespace AgentApplication
 
             var users = new List<User>
             {
-                new User("newUser2"),
-                new User("newUser3"),
-                new User("newUser4")
+                new User("newUser2", false),
+                new User("newUser3", false),
+                new User("newUser4", false)
             };
 
             foreach (var user in users)
             {
                 Debug.WriteLine(user.Name);
             }
+
+            ObjectXmlSerializer sdata = new ObjectXmlSerializer();
+            sdata.SerializeObject("test", movie1, new List<Type> Movie);
+
 
             //foreach (var rating in user1.Ratings)
             //{
