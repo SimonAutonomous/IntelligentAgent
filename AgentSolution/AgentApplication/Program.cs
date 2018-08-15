@@ -56,6 +56,8 @@ namespace AgentApplication
             //}
 
 
+            var ultraManager = UltraManager.Instance;
+
 
             User user1 = new User("TestUser", false);
 
@@ -70,14 +72,14 @@ namespace AgentApplication
             
 
 
-            var users = new List<User>
+            var userList = new List<User>
             {
                 new User("newUser2", false),
                 new User("newUser3", false),
                 new User("newUser4", false)
             };
 
-            foreach (var user in users)
+            foreach (var user in userList)
             {
                 Debug.WriteLine(user.Name);
             }

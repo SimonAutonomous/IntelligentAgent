@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgentApplication.AddedClasses;
 using AgentLibrary;
 using AgentLibrary.DialogueItems;
 using AgentLibrary.Memories;
@@ -232,12 +233,15 @@ namespace AgentApplication
 
 
             // Item TR1: User requests the current time
-            InputItem itemTR1 = new InputItem("TR1", new List<string>() { AgentConstants.QUERY_TAG_1 },
+            InputItem itemID1 = new InputItem("ID1", new List<string>() { AgentConstants.QUERY_TAG_1 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionTR1 = new InputAction(introductionDialogue.Context, "TR2");
-            inputActionTR1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_1));
-            itemTR1.InputActionList.Add(inputActionTR1);
-            introductionDialogue.DialogueItemList.Add(itemTR1);
+            InputAction inputActionID1 = new InputAction(introductionDialogue.Context, "ID2");
+            inputActionID1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_1));
+            itemID1.InputActionList.Add(inputActionID1);
+            introductionDialogue.DialogueItemList.Add(itemID1);
+
+            UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, introductionDialogue.Context, "ID3", introductionDialogue.Context, "ID4");
+
 
             //// Item TR2: The agent responds
             //TimeItem itemTR2 = new TimeItem("TR2");
