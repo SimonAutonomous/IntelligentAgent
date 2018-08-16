@@ -166,6 +166,9 @@ namespace AgentApplication
             agent.Server.Progress += new EventHandler<CommunicationProgressEventArgs>(HandleAgentServerProgress);
             agent.Server.Error += new EventHandler<CommunicationErrorEventArgs>(HandleAgentServerError);
 
+
+            // Generate new dialogues
+            GenerateIntroductionDialogue();
             // Generate the agent's dialogues
             GenerateWakeUpDialogue();
             GenerateTimeDialogue();
