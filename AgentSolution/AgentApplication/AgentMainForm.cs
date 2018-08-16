@@ -225,6 +225,8 @@ namespace AgentApplication
 
         #region Agent dialogues
 
+        // TODO Nice dialogue --> It sure is nice!
+
         // User introduction
         private void GenerateIntroductionDialogue()
         {
@@ -232,7 +234,7 @@ namespace AgentApplication
             double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
             int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
 
-            Dialogue introductionDialogue = new Dialogue("Introduction", isAlwaysAvailable);
+            Dialogue introductionDialogue = new Dialogue("IntroductionDialogue", isAlwaysAvailable);
 
             // Item TR1: User requests the current time
             InputItem itemID1 = new InputItem("ID1", new List<string>() { AgentConstants.QUERY_TAG_1 },
@@ -242,10 +244,18 @@ namespace AgentApplication
             itemID1.InputActionList.Add(inputActionID1);
             introductionDialogue.DialogueItemList.Add(itemID1);
 
+            // Item TR2: The agent responds
+            //TimeItem itemIDT2 = new TimeItem("ID2");
+            //itemIDT2.OutputAction = new OutputAction("", ""); // Abandon this context after completing the output
+            //itemIDT2.OutputAction.PatternList.Add(new Pattern("It is "));
+            //itemIDT2.OutputAction.PatternList.Add(new Pattern("The time is "));
+            //introductionDialogue.DialogueItemList.Add(itemIDT2);
+
             // Search for existing user
             // TODO: set ID4 for failureID
-            UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
-                introductionDialogue.Context, "ID5", introductionDialogue.Context, "ID5");
+            //UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
+            //    introductionDialogue.Context, "ID5", introductionDialogue.Context, "ID5");
+            UserIntroductionItem itemID2 = new UserIntroductionItem("ID2", new List<string>() { AgentConstants.QUERY_TAG_1 });
             introductionDialogue.DialogueItemList.Add(itemID2);
 
             // If new user --> rating dialogue ¦ where to trigger? --> maybe UserIntroductionItem
