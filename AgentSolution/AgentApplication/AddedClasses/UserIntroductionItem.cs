@@ -59,7 +59,7 @@ namespace AgentApplication.AddedClasses
                 }
             }
 
-            if (existingUser == true)
+            if (existingUser)
             {
                 //TODO: trigger rating dialogue 
             }
@@ -73,10 +73,17 @@ namespace AgentApplication.AddedClasses
             //TODO: set current User in working memory
 
 
-            // These values are set in the derived classes, but must be initialized here, due to the "out" keyword.
-            targetContext = ""; // If other dialogue should be triggered
-            targetID = ""; // If other dialogue should be triggered
-            return true;
+            if (existingUser) // success if existing user
+            {
+                targetContext = successTargetContext;
+                targetID = successTargetID;
+            }
+            else // no success if new user
+            {
+                targetContext = failureTargetContext;
+                targetID = failureTargetID;
+            }
+            return existingUser;
         }
 
         [DataMember]

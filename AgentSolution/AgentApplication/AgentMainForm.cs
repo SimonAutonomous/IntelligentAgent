@@ -231,7 +231,6 @@ namespace AgentApplication
 
             Dialogue introductionDialogue = new Dialogue("Introduction", isAlwaysAvailable);
 
-
             // Item TR1: User requests the current time
             InputItem itemID1 = new InputItem("ID1", new List<string>() { AgentConstants.QUERY_TAG_1 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
@@ -240,26 +239,21 @@ namespace AgentApplication
             itemID1.InputActionList.Add(inputActionID1);
             introductionDialogue.DialogueItemList.Add(itemID1);
 
-            UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, introductionDialogue.Context, "ID3", introductionDialogue.Context, "ID4");
+            // Search for existing user
+            // TODO: set ID4 for failureID
+            UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
+                introductionDialogue.Context, "ID5", introductionDialogue.Context, "ID5");
+            introductionDialogue.DialogueItemList.Add(itemID2);
 
+            // If new user --> rating dialogue ¦ where to trigger? --> maybe UserIntroductionItem
 
-            //// Item TR2: The agent responds
-            //TimeItem itemTR2 = new TimeItem("TR2");
-            //itemTR2.OutputAction = new OutputAction("", ""); // Abandon this context after completing the output
-            //itemTR2.OutputAction.PatternList.Add(new Pattern("It is "));
-            //itemTR2.OutputAction.PatternList.Add(new Pattern("The time is "));
-            //timeDialogue.DialogueItemList.Add(itemTR2);
+            // If the user is found:
+            OutputItem itemID5 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            itemID5.OutputAction = new OutputAction("", "");
+            itemID5.OutputAction.PatternList.Add(new Pattern("Hello" + " " + AgentConstants.QUERY_TAG_3));
+            introductionDialogue.DialogueItemList.Add(itemID5);
 
             agent.DialogueList.Add(introductionDialogue);
-
-            //// The user asks a question of the form "What is a <Q>"?
-            //InputItem itemWI1 = new InputItem("WI1", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2 },
-            //    inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            //InputAction inputActionWI1 = new InputAction(whoIsDialogue.Context, "WI2");
-            //inputActionWI1.PatternList.Add(new Pattern("Who is" + " " + AgentConstants.QUERY_TAG_1 + " " +
-            //                                           AgentConstants.QUERY_TAG_2));
-            //itemWI1.InputActionList.Add(inputActionWI1);
-            //whoIsDialogue.DialogueItemList.Add(itemWI1);
         }
 
 
