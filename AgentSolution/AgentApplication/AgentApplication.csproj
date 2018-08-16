@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,8 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddedClasses\Movie.cs" />
-    <Compile Include="AddedClasses\MovieRatings.cs" />
+    <Compile Include="AddedClasses\Rating.cs" />
+    <Compile Include="AddedClasses\UltraManager.cs" />
     <Compile Include="AddedClasses\User.cs" />
+    <Compile Include="AddedClasses\UserIntroductionItem.cs" />
     <Compile Include="AgentMainForm.cs">
       <SubType>Form</SubType>
     </Compile>

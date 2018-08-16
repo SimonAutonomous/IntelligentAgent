@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AgentApplication.AddedClasses;
 using AgentLibrary;
 using AgentLibrary.DialogueItems;
 using AgentLibrary.Memories;
@@ -220,6 +221,42 @@ namespace AgentApplication
         }
 
         #region Agent dialogues
+
+        // User introduction
+        private void GenerateIntroductionDialogue()
+        {
+            Boolean isAlwaysAvailable = true;
+            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
+            int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
+
+            Dialogue introductionDialogue = new Dialogue("Introduction", isAlwaysAvailable);
+
+            // Item TR1: User requests the current time
+            InputItem itemID1 = new InputItem("ID1", new List<string>() { AgentConstants.QUERY_TAG_1 },
+                inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            InputAction inputActionID1 = new InputAction(introductionDialogue.Context, "ID2");
+            inputActionID1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_1));
+            itemID1.InputActionList.Add(inputActionID1);
+            introductionDialogue.DialogueItemList.Add(itemID1);
+
+            // Search for existing user
+            // TODO: set ID4 for failureID
+            UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
+                introductionDialogue.Context, "ID5", introductionDialogue.Context, "ID5");
+            introductionDialogue.DialogueItemList.Add(itemID2);
+
+            // If new user --> rating dialogue ¦ where to trigger? --> maybe UserIntroductionItem
+
+            // If the user is found:
+            OutputItem itemID5 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            itemID5.OutputAction = new OutputAction("", "");
+            itemID5.OutputAction.PatternList.Add(new Pattern("Hello" + " " + AgentConstants.QUERY_TAG_3));
+            introductionDialogue.DialogueItemList.Add(itemID5);
+
+            agent.DialogueList.Add(introductionDialogue);
+        }
+
+
         // This dialogue is not really a dialogue - it simply opens the eyes of the agent
         private void GenerateWakeUpDialogue()
         {

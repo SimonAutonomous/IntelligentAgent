@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AgentApplication.AddedClasses;
+using System.Runtime.Serialization;
+using ObjectSerializerLibrary;
 
 namespace AgentApplication
 {
@@ -53,8 +56,10 @@ namespace AgentApplication
             //}
 
 
+            var ultraManager = UltraManager.Instance;
 
-            User user1 = new User("TestUser");
+
+            User user1 = new User("TestUser", false);
 
             Movie movie1 = new Movie();
             Movie movie2 = new Movie();
@@ -67,17 +72,40 @@ namespace AgentApplication
             
 
 
-            var users = new List<User>
+            var userList = new List<User>
             {
-                new User("newUser2"),
-                new User("newUser3"),
-                new User("newUser4")
+                new User("newUser2", false),
+                new User("newUser3", false),
+                new User("newUser4", false)
             };
 
-            foreach (var user in users)
+            foreach (var user in userList)
             {
                 Debug.WriteLine(user.Name);
             }
+
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //SERIALIZATION
+            //https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/data-contract-known-types
+            //TODO: how to use without changing library?
+            //ObjectXmlSerializer sdata = new ObjectXmlSerializer();
+            List<Type> typeList = new List<Type>();
+            typeList.Add(Type.GetType("Dicitonary"));
+            ObjectXmlSerializer.SerializeObject("test", user1, typeList);
+
+            ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+
+            User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+
+            user10.Ratings.Add(movie3, 3);
+
+            foreach (var user10Rating in user10.Ratings)
+            {
+                Debug.Write(user10Rating.Value);
+            }
+            //-----------------------------------------------------------------------------------------------------------------
+
 
             //foreach (var rating in user1.Ratings)
             //{
