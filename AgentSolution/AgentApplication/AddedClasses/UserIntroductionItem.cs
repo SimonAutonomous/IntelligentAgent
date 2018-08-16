@@ -165,19 +165,28 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
     [DataContract]
     public class UserIntroductionItem : DialogueItem
     {
-        private OutputAction outputAction = new OutputAction();
+        //private OutputAction outputAction = new OutputAction();
         private List<string> inputQueryTagList;
         private readonly UltraManager _ultraManager = UltraManager.Instance;
 
+        private string newUserTargetContext;
+        private string newUserTargetID;
+        private string existingUserTargetContext;
+        private string existingUserTargetID;
+
         public UserIntroductionItem() { }
 
-        public UserIntroductionItem(string id, List<string> inputQueryTagList)
+        public UserIntroductionItem(string id, List<string> inputQueryTagList, string newUserTargetContext, string newUserTargetID, string existingUserTargetContext, string existingUserTargetID)
         {
             this.id = id;
             this.inputQueryTagList = inputQueryTagList;
+            this.newUserTargetContext = newUserTargetContext;
+            this.newUserTargetID = newUserTargetID;
+            this.existingUserTargetContext = existingUserTargetContext;
+            this.existingUserTargetID = existingUserTargetID;
         }
 
-        public override void Initialize(Agent ownerAgent) // TODO use patter list
+       /* public override void Initialize(Agent ownerAgent) // TODO use patter list
         {
             base.Initialize(ownerAgent);
             foreach (Pattern pattern in outputAction.PatternList)
@@ -185,14 +194,16 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
                 pattern.ProcessDefinition();
                 //     pattern.ProcessDefinitionList();
             }
-        }
+        }*/
 
         public override Boolean Run(List<object> parameterList, out string targetContext, out string targetID)
         {
             base.Run(parameterList, out targetContext, out targetID);
 
+            //string timePrefixString = outputAction.GetString(ownerAgent.RandomNumberGenerator, null);
+
             string queryTag = inputQueryTagList[0]; //TODO maybe not needed
-            string greetingString = "";
+            //string greetingString = "";
             string currentUser = "";
 
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
@@ -213,13 +224,17 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             if (existingUser)
             {
                 //TODO: trigger rating dialogue 
-                greetingString = greetingString + "Welcome back " + currentUser;
+                targetContext = existingUserTargetContext;
+                targetID = existingUserTargetID;
+                //greetingString = greetingString + "Welcome back " + currentUser;
             }
             else
             {
                 var user = new User(currentUser, false);
                 _ultraManager.UserList.Add(user);
-                greetingString = greetingString + "Hello " + currentUser + "    it seems you are new";
+                targetContext = newUserTargetContext;
+                targetID = newUserTargetID;
+                //greetingString = greetingString + "Hello " + currentUser + "    it seems you are new";
 
             }
 
@@ -235,18 +250,18 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             //{
             //    timeString = timePrefixString + " " + timeString;
             //}
-            ownerAgent.SendSpeechOutput(greetingString);
-            targetContext = outputAction.TargetContext;
-            targetID = outputAction.TargetID;
+            //ownerAgent.SendSpeechOutput(greetingString);
+            //targetContext = outputAction.TargetContext;
+            //targetID = outputAction.TargetID;
             return true;
         }
-
+        /*
         [DataMember]
         public OutputAction OutputAction
         {
             get { return outputAction; }
             set { outputAction = value; }
-        }
+        }*/
 
         [DataMember]
         public List<string> InputQueryTagList

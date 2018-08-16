@@ -252,19 +252,29 @@ namespace AgentApplication
             //introductionDialogue.DialogueItemList.Add(itemIDT2);
 
             // Search for existing user
-            // TODO: set ID4 for failureID
-            //UserIntroductionItem itemID2 = new UserIntroductionItem(introductionDialogue.Context, "ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
-            //    introductionDialogue.Context, "ID5", introductionDialogue.Context, "ID5");
-            UserIntroductionItem itemID2 = new UserIntroductionItem("ID2", new List<string>() { AgentConstants.QUERY_TAG_1 });
+            UserIntroductionItem itemID2 = new UserIntroductionItem("ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
+                introductionDialogue.Context, "ID3", introductionDialogue.Context, "ID5");
             introductionDialogue.DialogueItemList.Add(itemID2);
 
             // If new user --> rating dialogue ¦ where to trigger? --> maybe UserIntroductionItem
 
-            // If the user is found:
-            OutputItem itemID5 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
-            itemID5.OutputAction = new OutputAction("", "");
-            itemID5.OutputAction.PatternList.Add(new Pattern("Hello" + " " + AgentConstants.QUERY_TAG_3));
-            introductionDialogue.DialogueItemList.Add(itemID5);
+            // If new user:
+            OutputItem itemID3 = new OutputItem("ID3", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            itemID3.OutputAction = new OutputAction(introductionDialogue.Context, "ID4");
+            itemID3.OutputAction.PatternList.Add(new Pattern("Nice to meet you" + " " + AgentConstants.QUERY_TAG_1));
+            introductionDialogue.DialogueItemList.Add(itemID3);
+            
+            // TODO Ask if want to vote some movies
+
+            // TODO go to rating dialogue
+
+
+
+            // If existing user:
+            OutputItem itemID4 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            itemID4.OutputAction = new OutputAction("", "");
+            itemID4.OutputAction.PatternList.Add(new Pattern("Welcome back" + " " + AgentConstants.QUERY_TAG_1));
+            introductionDialogue.DialogueItemList.Add(itemID4);
 
             agent.DialogueList.Add(introductionDialogue);
         }
