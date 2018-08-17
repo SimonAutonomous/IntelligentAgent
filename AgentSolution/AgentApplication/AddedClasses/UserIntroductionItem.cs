@@ -9,157 +9,6 @@ using AgentLibrary.Memories;
 using AgentLibrary.DialogueItems;
 using AgentLibrary;
 
-//using AgentApplication.AddedClasses;
-
-//namespace AgentApplication.AddedClasses
-//{
-//    [DataContract]
-//    public class UserIntroductionItem : DialogueItem
-//    {
-
-//        private string memoryIdentifier;
-//        private List<string> inputQueryTagList; // The tag (in working memory) for the item sought.
-
-//        private string successTargetContext;
-//        private string successTargetID;
-//        private string failureTargetContext;
-//        private string failureTargetID;
-
-//        private OutputAction outputAction; // TODO added
-
-//        private readonly UltraManager _ultraManager = UltraManager.Instance;
-
-
-//        public UserIntroductionItem(string id/*, string memoryIdentifier, List<string> inputQueryTagList, string successTargetContext, string successTargetID,
-//                                string failureTargetContext, string failureTargetID*/) // TODO maybe no list since only one query tag
-//        {
-//            this.id = id;
-//            //this.memoryIdentifier = memoryIdentifier;
-//            //this.inputQueryTagList = inputQueryTagList;
-//            //this.successTargetContext = successTargetContext;
-//            //this.successTargetID = successTargetID;
-//            //this.failureTargetContext = failureTargetContext;
-//            //this.failureTargetID = failureTargetID;
-//        }
-
-//        //TODO default --> necessary?
-//        //public UserIntroductionItem()
-//        //{
-
-//        //}
-//        public override void Initialize(Agent ownerAgent)
-//        {
-//            base.Initialize(ownerAgent);
-//            foreach (Pattern pattern in outputAction.PatternList)
-//            {
-//                pattern.ProcessDefinition();
-//                //     pattern.ProcessDefinitionList();
-//            }
-//        }
-
-//        public override Boolean Run(List<object> parameterList, out string targetContext, out string targetID)
-//        {
-//            base.Run(parameterList, out targetContext, out targetID); // TODO: necessary?
-//            repetitionCount++;
-
-//            targetContext = outputAction.TargetContext;
-//            targetID = outputAction.TargetID;
-//            return true;
-
-//            //Boolean existingUser = false;
-//            //foreach (var user in _ultraManager.UserList)
-//            //{
-//            //    foreach (string queryTag in inputQueryTagList)
-//            //    {
-//            //        if (user.Name == queryTag)
-//            //        {
-//            //            existingUser = true;
-//            //        }
-//            //    }
-//            //}
-
-//            //if (existingUser)
-//            //{
-//            //    //TODO: trigger rating dialogue 
-//            //}
-//            //else
-//            //{
-//            //    var user = new User(inputQueryTagList[0], false);
-//            //    _ultraManager.UserList.Add(user);
-
-//            //}
-
-//            ////TODO: set current User in working memory
-
-
-//            //if (existingUser) // success if existing user
-//            //{
-//            //    targetContext = successTargetContext;
-//            //    targetID = successTargetID;
-//            //}
-//            //else // no success if new user
-//            //{
-//            //    targetContext = failureTargetContext;
-//            //    targetID = failureTargetID;
-//            //}
-//            //return existingUser;
-//        }
-
-//        [DataMember]
-//        public OutputAction OutputAction
-//        {
-//            get { return outputAction; }
-//            set { outputAction = value; }
-//        }
-
-//        [DataMember]
-//        public string MemoryIdentifier
-//        {
-//            get { return memoryIdentifier; }
-//            set { memoryIdentifier = value; }
-//        }
-
-//        [DataMember]
-//        public List<string> InputQueryTagList
-//        {
-//            get { return inputQueryTagList; }
-//            set { inputQueryTagList = value; }
-//        }
-
-//        [DataMember]
-//        public string SuccessTargetContext
-//        {
-//            get { return successTargetContext; }
-//            set { successTargetContext = value; }
-//        }
-
-//        [DataMember]
-//        public string SuccessTargetID
-//        {
-//            get { return successTargetID; }
-//            set { successTargetID = value; }
-//        }
-
-//        [DataMember]
-//        public string FailureTargetContext
-//        {
-//            get { return failureTargetContext; }
-//            set { failureTargetContext = value; }
-//        }
-
-//        [DataMember]
-//        public string FailureTargetID
-//        {
-//            get { return failureTargetID; }
-//            set { failureTargetID = value; }
-//        }
-
-//    }
-//}
-
-
-
-
 namespace AgentApplication.AddedClasses //TODO: right namespace?
 {
     [DataContract]
@@ -200,18 +49,35 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
         {
             base.Run(parameterList, out targetContext, out targetID);
 
-            //string timePrefixString = outputAction.GetString(ownerAgent.RandomNumberGenerator, null);
-
-            string queryTag = inputQueryTagList[0]; //TODO maybe not needed
-            //string greetingString = "";
+            string queryTag = inputQueryTagList[0]; //TODO maybe not needed or change GetLastStringByTag
             string currentUser = "";
-
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
             if (itemSought != null)  // 20171201
             {
                 currentUser = (string)itemSought.GetContent();
             }
 
+            // TODO
+            // If no currentUser in WorkingMemory --> set currentUser, else change currentUser
+            MemoryItem currentUserMemoryItem = ownerAgent.WorkingMemory.GetLastItemByTag("currentUser");
+            if(currentUserMemoryItem == null)
+            {
+                StringMemoryItem newUserMemoryItem = new StringMemoryItem();
+                newUserMemoryItem.TagList = new List<string>() { "currentUser" }; //TODO make currentUser to a constant in AgentConstants
+                newUserMemoryItem.SetContent(currentUser);
+                ownerAgent.WorkingMemory.AddItem(newUserMemoryItem);
+
+            }
+            else
+            {
+                ownerAgent.WorkingMemory.RemoveContextIDPair("currentUser");
+                StringMemoryItem newUserMemoryItem = new StringMemoryItem();
+                newUserMemoryItem.TagList = new List<string>() { "currentUser" }; //TODO make currentUser to a constant in AgentConstants
+                newUserMemoryItem.SetContent(currentUser);
+                ownerAgent.WorkingMemory.AddItem(newUserMemoryItem);
+            }
+
+            // Check if user already exists
             Boolean existingUser = false;
             foreach (var user in _ultraManager.UserList)
             {
@@ -230,38 +96,15 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             }
             else
             {
-                var user = new User(currentUser, false);
+                var user = new User(currentUser, false, "");
                 _ultraManager.UserList.Add(user);
                 targetContext = newUserTargetContext;
                 targetID = newUserTargetID;
                 //greetingString = greetingString + "Hello " + currentUser + "    it seems you are new";
 
             }
-
-
-            //foreach (string inputQueryTag in inputQueryTagList)
-            //{
-            //    greetingString = greetingString + " " + inputQueryTag;
-            //}
-
-            //string timePrefixString = outputAction.GetString(ownerAgent.RandomNumberGenerator, null);
-            //string timeString = DateTime.Now.Hour.ToString() + " " + DateTime.Now.Minute.ToString();
-            //if (timePrefixString != null)
-            //{
-            //    timeString = timePrefixString + " " + timeString;
-            //}
-            //ownerAgent.SendSpeechOutput(greetingString);
-            //targetContext = outputAction.TargetContext;
-            //targetID = outputAction.TargetID;
             return true;
         }
-        /*
-        [DataMember]
-        public OutputAction OutputAction
-        {
-            get { return outputAction; }
-            set { outputAction = value; }
-        }*/
 
         [DataMember]
         public List<string> InputQueryTagList

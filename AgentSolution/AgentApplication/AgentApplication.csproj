@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\Rating.cs" />
+    <Compile Include="AddedClasses\RatingItem.cs" />
     <Compile Include="AddedClasses\UltraManager.cs" />
     <Compile Include="AddedClasses\User.cs" />
     <Compile Include="AddedClasses\UserIntroductionItem.cs" />

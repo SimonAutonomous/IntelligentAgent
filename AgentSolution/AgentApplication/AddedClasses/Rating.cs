@@ -6,14 +6,17 @@ namespace AgentApplication.AddedClasses
     [DataContract]
     public class Rating
     {
-        [DataMember] public Movie Movie { get; set; }
-        [DataMember] public User User { get; set; }
-        [DataMember] public double RatingValue { get; set; }
+        [DataMember]
+        public string MovieTitle { get; set; }
+        [DataMember]
+        public string UserName { get; set; }
+        [DataMember]
+        public double RatingValue { get; set; }
 
-        public Rating(Movie movie, User user, double ratingValue)
+        public Rating(string movieTitle, string userName, double ratingValue)
         {
-            this.Movie = movie;
-            this.User = user;
+            this.MovieTitle = movieTitle;
+            this.UserName = userName;
             this.RatingValue = ratingValue;
         }
     }
