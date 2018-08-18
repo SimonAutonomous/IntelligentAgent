@@ -59,24 +59,24 @@ namespace AgentApplication
             var ultraManager = UltraManager.Instance;
 
 
-            User user1 = new User("TestUser", false);
+            User user1 = new User("TestUser", false, "");
 
             Movie movie1 = new Movie();
             Movie movie2 = new Movie();
             Movie movie3 = new Movie();
 
-            user1.Ratings.Add(movie1, 3.2);
-            user1.Ratings.Add(movie2, 2.3);
-            user1.Ratings.Add(movie3, 5);
+            //user1.Ratings.Add(movie1, 3.2);
+            //user1.Ratings.Add(movie2, 2.3);
+            //user1.Ratings.Add(movie3, 5);
 
             
 
 
             var userList = new List<User>
             {
-                new User("newUser2", false),
-                new User("newUser3", false),
-                new User("newUser4", false)
+                new User("newUser2", false, ""),
+                new User("newUser3", false, ""),
+                new User("newUser4", false, "")
             };
 
             foreach (var user in userList)
@@ -98,12 +98,12 @@ namespace AgentApplication
 
             User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
 
-            user10.Ratings.Add(movie3, 3);
+            //user10.Ratings.Add(movie3, 3);
 
-            foreach (var user10Rating in user10.Ratings)
-            {
-                Debug.Write(user10Rating.Value);
-            }
+            //foreach (var user10Rating in user10.Ratings)
+            //{
+            //    Debug.Write(user10Rating.Value);
+            //}
             //-----------------------------------------------------------------------------------------------------------------
 
 
