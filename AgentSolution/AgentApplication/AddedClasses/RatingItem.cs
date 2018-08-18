@@ -27,19 +27,40 @@ namespace AgentApplication.AddedClasses
             this.inputQueryTagList = inputQueryTagList;
         }
 
+        public override void Initialize(Agent ownerAgent)
+        {
+            base.Initialize(ownerAgent);
+            foreach (Pattern pattern in outputAction.PatternList)
+            {
+                pattern.ProcessDefinition();
+                //     pattern.ProcessDefinitionList();
+            }
+        }
+
         public override Boolean Run(List<object> parameterList, out string targetContext, out string targetID)
         {
             base.Run(parameterList, out targetContext, out targetID);
 
             string movieTitle = inputQueryTagList[0];
             string movieRatingString = inputQueryTagList[1];
-            double movieRating = Convert.ToDouble(movieRatingString);
+            string currentUser = inputQueryTagList[2];
 
-            MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag("currentUser");
-            string currentUser = ""; //TODO must get currentUser from working memory
-            if (itemSought != null)  // 20171201
+            //TODO: get all in one call
+            MemoryItem itemSought1 = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
+            if (itemSought1 != null)  // 20171201
             {
-                currentUser = (string)itemSought.GetContent();
+                movieTitle = (string)itemSought1.GetContent();
+            }
+            MemoryItem itemSought2 = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[1]);
+            if (itemSought2 != null)  // 20171201
+            {
+                movieRatingString = (string)itemSought2.GetContent();
+            }
+            double movieRating = Convert.ToDouble(movieRatingString);
+            MemoryItem itemSought3 = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[2]);
+            if (itemSought3 != null)  // 20171201
+            {
+                currentUser = (string)itemSought3.GetContent();
             }
 
             Boolean existingRating = false;

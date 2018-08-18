@@ -237,30 +237,31 @@ namespace AgentApplication
             Dialogue introductionDialogue = new Dialogue("IntroductionDialogue", isAlwaysAvailable);
 
             // Item ID1: User introduces him-/herself
-            InputItem itemID1 = new InputItem("ID1", new List<string>() { AgentConstants.QUERY_TAG_1 },
+            InputItem itemID1 = new InputItem("ID1", new List<string>() { AgentConstants.QUERY_TAG_5 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionID1 = new InputAction(introductionDialogue.Context, "ID2");
-            inputActionID1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_1));
+            inputActionID1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_5));
             itemID1.InputActionList.Add(inputActionID1);
             introductionDialogue.DialogueItemList.Add(itemID1);
 
             // Item ID2: Search for existing user in ultraManager
-            UserIntroductionItem itemID2 = new UserIntroductionItem("ID2", new List<string>() { AgentConstants.QUERY_TAG_1 }, 
+            UserIntroductionItem itemID2 = new UserIntroductionItem("ID2", new List<string>() { AgentConstants.QUERY_TAG_5 }, 
                 introductionDialogue.Context, "ID3", introductionDialogue.Context, "ID5");
             introductionDialogue.DialogueItemList.Add(itemID2);
 
             // Item ID3: If new user:
-            OutputItem itemID3 = new OutputItem("ID3", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
-            itemID3.OutputAction = new OutputAction(introductionDialogue.Context, "ID4");
-            itemID3.OutputAction.PatternList.Add(new Pattern("Nice to meet you" + " " + AgentConstants.QUERY_TAG_1));
+            OutputItem itemID3 = new OutputItem("ID3", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_5 }, false, 1);
+            //itemID3.OutputAction = new OutputAction(introductionDialogue.Context, "ID4"); TODO: Add later after adding ID4
+            itemID3.OutputAction = new OutputAction("", "");
+            itemID3.OutputAction.PatternList.Add(new Pattern("Nice to meet you" + " " + AgentConstants.QUERY_TAG_5));
             introductionDialogue.DialogueItemList.Add(itemID3);
             
             // Item ID4: Trigger tasteProfilingDialogue
 
             // Item ID5: If existing user:
-            OutputItem itemID4 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            OutputItem itemID4 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_5 }, false, 1);
             itemID4.OutputAction = new OutputAction("", "");
-            itemID4.OutputAction.PatternList.Add(new Pattern("Welcome back" + " " + AgentConstants.QUERY_TAG_1));
+            itemID4.OutputAction.PatternList.Add(new Pattern("Welcome back" + " " + AgentConstants.QUERY_TAG_5));
             introductionDialogue.DialogueItemList.Add(itemID4);
 
             agent.DialogueList.Add(introductionDialogue);
@@ -286,19 +287,19 @@ namespace AgentApplication
             // Item RD2: Ask user for rating between 1 and 10
             OutputItem itemRD2 = new OutputItem("RD2", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
             itemRD2.OutputAction = new OutputAction(ratingDialogue.Context, "RD3");
-            itemRD2.OutputAction.PatternList.Add(new Pattern("How would you rete" + " " + AgentConstants.QUERY_TAG_1 + " " + "from 1 to 10"));
+            itemRD2.OutputAction.PatternList.Add(new Pattern("How would you rate" + " " + AgentConstants.QUERY_TAG_1 + " " + "from 1 to 10"));
             ratingDialogue.DialogueItemList.Add(itemRD2);
 
             // Item RD3: Give rating
-            InputItem itemRD3 = new InputItem("RD1", new List<string>() { AgentConstants.QUERY_TAG_2 },
+            InputItem itemRD3 = new InputItem("RD3", new List<string>() { AgentConstants.QUERY_TAG_2 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionRD3 = new InputAction(ratingDialogue.Context, "RD2");
-            inputActionRD3.PatternList.Add(new Pattern("I would give it [a an]" + " " + AgentConstants.QUERY_TAG_2));
+            InputAction inputActionRD3 = new InputAction(ratingDialogue.Context, "RD4");
+            inputActionRD3.PatternList.Add(new Pattern("I would give it" + " " + AgentConstants.QUERY_TAG_2));
             itemRD3.InputActionList.Add(inputActionRD3);
             ratingDialogue.DialogueItemList.Add(itemRD3);
 
             // Item RD4: Insert rating into ultraManager ratingList
-            RatingItem itemRD4 = new RatingItem("RD4", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2 });
+            RatingItem itemRD4 = new RatingItem("RD4", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_2 });
             itemRD4.OutputAction = new OutputAction( "" , "");
             ratingDialogue.DialogueItemList.Add(itemRD4);
 

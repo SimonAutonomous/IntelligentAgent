@@ -35,7 +35,7 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             this.existingUserTargetID = existingUserTargetID;
         }
 
-        public override void Initialize(Agent ownerAgent) // TODO use patter list
+       /* public override void Initialize(Agent ownerAgent) // TODO use patter list
         {
             base.Initialize(ownerAgent);
             //foreach (Pattern pattern in outputAction.PatternList)
@@ -43,7 +43,7 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             //    pattern.ProcessDefinition();
             //    //     pattern.ProcessDefinitionList();
             //}
-        }
+        }*/
 
         public override Boolean Run(List<object> parameterList, out string targetContext, out string targetID)
         {
@@ -60,40 +60,6 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             
             // TODO
             // If no currentUser in WorkingMemory --> set currentUser, else change currentUser
-            MemoryItem currentUserMemoryItem = ownerAgent.WorkingMemory.GetLastItemByTag("currentUser");
-            if(currentUserMemoryItem == null)
-            {
-                StringMemoryItem newUserMemoryItem = new StringMemoryItem();
-                newUserMemoryItem.TagList.Add("currentUser");
-                newUserMemoryItem.SetContent(currentUser);
-                ownerAgent.WorkingMemory.AddItem(newUserMemoryItem);
-
-                //newUserMemoryItem.TagList = new List<string>() { "currentUser" }; //TODO make currentUser to a constant in AgentConstants
-                //newUserMemoryItem.SetContent(currentUser);
-                //ownerAgent.WorkingMemory.AddItem(newUserMemoryItem);
-
-
-                //string queryTerm = queryTerms[ii];
-                //string queryTag = queryTagList[ii];
-                //StringMemoryItem queryMemoryItem = new StringMemoryItem();
-                //queryMemoryItem.TagList.Add(queryTag);
-                //queryMemoryItem.SetContent(queryTerm);
-                //queryMemoryItemList.Add(queryMemoryItem);
-
-            }
-            else
-            {
-                ownerAgent.WorkingMemory.RemoveContextIDPair(currentUser);
-                StringMemoryItem newUserMemoryItem = new StringMemoryItem();
-                newUserMemoryItem.TagList.Add("currentUser");
-                newUserMemoryItem.SetContent(currentUser);
-                ownerAgent.WorkingMemory.AddItem(newUserMemoryItem);
-
-                //StringMemoryItem newUserMemoryItem = new StringMemoryItem();
-                //newUserMemoryItem.TagList = new List<string>() { "currentUser" }; //TODO make currentUser to a constant in AgentConstants
-                //newUserMemoryItem.SetContent(currentUser);
-                //ownerAgent.WorkingMemory.AddItem(newUserMemoryItem);
-            }
 
             // Check if user already exists
             Boolean existingUser = false;
