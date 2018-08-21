@@ -56,33 +56,42 @@ namespace AgentApplication
             //}
 
 
-            var ultraManager = UltraManager.Instance;
+            var _ultraManager = UltraManager.Instance;
 
+            //User user1 = new User("TestUser", false, "");
 
-            User user1 = new User("TestUser", false, "");
+            Movie movie1 = new Movie("Pulp fiction", 1991, 8.9);
+            Movie movie2 = new Movie("The big lebowski", 1991, 8.9);
+            Movie movie3 = new Movie("Rum diary", 1991, 8.9);
 
-            Movie movie1 = new Movie();
-            Movie movie2 = new Movie();
-            Movie movie3 = new Movie();
+            _ultraManager.MovieList.Add(movie1);
+            _ultraManager.MovieList.Add(movie2);
+            _ultraManager.MovieList.Add(movie3);
+
+            Rating rating1 = new Rating("Pulp fiction", "simon", 9.0);
+            _ultraManager.RatingList.Add(rating1);
+
+            User user1 = new User("simon", false, "");
+            _ultraManager.UserList.Add(user1);
 
             //user1.Ratings.Add(movie1, 3.2);
             //user1.Ratings.Add(movie2, 2.3);
             //user1.Ratings.Add(movie3, 5);
 
-            
 
 
-            var userList = new List<User>
-            {
-                new User("newUser2", false, ""),
-                new User("newUser3", false, ""),
-                new User("newUser4", false, "")
-            };
 
-            foreach (var user in userList)
-            {
-                Debug.WriteLine(user.Name);
-            }
+            //var userList = new List<User>
+            //{
+            //    new User("newUser2", false, ""),
+            //    new User("newUser3", false, ""),
+            //    new User("newUser4", false, "")
+            //};
+
+            //foreach (var user in userList)
+            //{
+            //    Debug.WriteLine(user.Name);
+            //}
 
 
             //-----------------------------------------------------------------------------------------------------------------
@@ -90,13 +99,25 @@ namespace AgentApplication
             //https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/data-contract-known-types
             //TODO: how to use without changing library?
             //ObjectXmlSerializer sdata = new ObjectXmlSerializer();
+
+            //User version
+            //List<Type> typeList = new List<Type>();
+            //typeList.Add(Type.GetType("Dicitonary"));
+            //ObjectXmlSerializer.SerializeObject("test", user1, typeList);
+            //ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+            //User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+
+            //Singleton version
             List<Type> typeList = new List<Type>();
-            typeList.Add(Type.GetType("Dicitonary"));
-            ObjectXmlSerializer.SerializeObject("test", user1, typeList);
+            typeList.Add(Type.GetType("UltraManager"));
+            ObjectXmlSerializer.SerializeObject("testSingleton", _ultraManager, typeList);
+            ObjectXmlSerializer.ObtainSerializedObject("testSingleton", typeof(UltraManager), typeList);
+            UltraManager _ultraManagerNew = (UltraManager)ObjectXmlSerializer.ObtainSerializedObject("testSingleton", typeof(UltraManager), typeList);
 
-            ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
-
-            User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
+            foreach (var movie in _ultraManagerNew.MovieList)
+            {
+                Debug.WriteLine(movie.Title);
+            }
 
             //user10.Ratings.Add(movie3, 3);
 
