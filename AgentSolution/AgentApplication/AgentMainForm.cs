@@ -368,6 +368,62 @@ namespace AgentApplication
             agent.DialogueList.Add(tasteProfilingDialogue);
         }
 
+        // Generate taste profile of a user
+        private void GenerateRecommendationDialogue() //TODO must ensure that currentUser is in <Q5>
+        {
+            Boolean isAlwaysAvailable = true;
+            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
+            int inputMaximumRepetitionCount = int.MaxValue; // TODO maybe constant
+
+            Dialogue recommendationDialogue = new Dialogue("RecommendationDialogue", isAlwaysAvailable);
+
+            // Item TP1: User suggests to make a taste profile
+            InputItem itemTP1 = new InputItem("TP1", null,
+                inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            InputAction inputActionTP1 = new InputAction(tasteProfilingDialogue.Context, "TP2");
+            inputActionTP1.PatternList.Add(new Pattern("Taste profiling"));
+            itemTP1.InputActionList.Add(inputActionTP1);
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP1);
+
+            // Item TP2: Describe rating procedure
+            OutputItem itemTP2 = new OutputItem("TP2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
+            itemTP2.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP3");
+            itemTP2.OutputAction.PatternList.Add(new Pattern("I say movie, you say rating"));
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP2);
+
+            // Item TP3: Get random unseen movie to rate
+            TasteProfilingItem itemTP3 = new TasteProfilingItem("TP3", new List<string>() { AgentConstants.QUERY_TAG_5 },
+                inputMaximumRepetitionCount, AgentConstants.QUERY_TAG_1, tasteProfilingDialogue.Context, "TP4", tasteProfilingDialogue.Context, "TP7");
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP3);
+
+            // Item TP4: Ask user for rating between 1 and 10
+            OutputItem itemTP4 = new OutputItem("TP4", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 10);
+            itemTP4.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP5");
+            itemTP4.OutputAction.PatternList.Add(new Pattern("Rate" + " " + AgentConstants.QUERY_TAG_1));
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP4);
+
+            // Item TP5: Give rating
+            InputItem itemTP5 = new InputItem("TP5", new List<string>() { AgentConstants.QUERY_TAG_2 },
+                inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            InputAction inputActionTP5 = new InputAction(tasteProfilingDialogue.Context, "TP6");
+            inputActionTP5.PatternList.Add(new Pattern("" + AgentConstants.QUERY_TAG_2));
+            itemTP5.InputActionList.Add(inputActionTP5);
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP5);
+
+            // Item TP6: Insert rating into ultraManager ratingList
+            RatingItem itemTP6 = new RatingItem("TP6", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 });
+            itemTP6.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP3"); // Get another rating
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP6);
+
+            // Item TP7: Successfuly completed taste profiling
+            OutputItem itemTP7 = new OutputItem("TP7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            itemTP7.OutputAction = new OutputAction("", "");
+            itemTP7.OutputAction.PatternList.Add(new Pattern("You have successfuly completed your taste profile"));
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP7);
+
+            agent.DialogueList.Add(tasteProfilingDialogue);
+        }
+
 
 
         #endregion

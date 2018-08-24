@@ -106,7 +106,7 @@ namespace AgentApplication
             //ObjectXmlSerializer.SerializeObject("test", user1, typeList);
             //ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
             //User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
-
+            /*
             //Singleton version
             List<Type> typeList = new List<Type>();
             typeList.Add(Type.GetType("UltraManager"));
@@ -117,7 +117,7 @@ namespace AgentApplication
             foreach (var movie in _ultraManagerNew.MovieList)
             {
                 Debug.WriteLine(movie.Title);
-            }
+            }*/
 
             //user10.Ratings.Add(movie3, 3);
 
