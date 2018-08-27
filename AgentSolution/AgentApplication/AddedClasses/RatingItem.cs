@@ -82,21 +82,6 @@ namespace AgentApplication.AddedClasses
                _ultraManager.RatingList.Add(rating);
             }
 
-            //MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
-            //if (itemSought != null)  // 20171201
-            //{
-            //    currentUser = (string)itemSought.GetContent();
-            //}
-
-            //Boolean existingUser = false;
-            //foreach (var user in _ultraManager.UserList)
-            //{
-            //    if (user.Name == currentUser)
-            //    {
-            //        existingUser = true;
-            //    }
-            //}
-
             targetContext = outputAction.TargetContext;
             targetID = outputAction.TargetID;
             return true;

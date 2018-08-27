@@ -171,7 +171,8 @@ namespace AgentApplication
             GenerateIntroductionDialogue();
             GenerateRatingDialogue();
             GenerateTasteProfilingDialogue();
-            // Generate the agent's dialogues
+            GenerateRecommendationDialogue();
+            // Generate existing dialogues
             GenerateWakeUpDialogue();
             GenerateTimeDialogue();
             GenerateAttentionDialogue();
@@ -269,6 +270,8 @@ namespace AgentApplication
             itemID4.OutputAction = new OutputAction("", "");
             itemID4.OutputAction.PatternList.Add(new Pattern("Welcome back" + " " + AgentConstants.QUERY_TAG_5));
             introductionDialogue.DialogueItemList.Add(itemID4);
+
+            // TODO: If open rating --> trigger rating dialogue
 
             agent.DialogueList.Add(introductionDialogue);
         }
@@ -368,7 +371,7 @@ namespace AgentApplication
             agent.DialogueList.Add(tasteProfilingDialogue);
         }
 
-        // Generate taste profile of a user
+        // Recommend unseen movie
         private void GenerateRecommendationDialogue() //TODO must ensure that currentUser is in <Q5>
         {
             Boolean isAlwaysAvailable = true;
@@ -377,51 +380,39 @@ namespace AgentApplication
 
             Dialogue recommendationDialogue = new Dialogue("RecommendationDialogue", isAlwaysAvailable);
 
-            // Item TP1: User suggests to make a taste profile
-            InputItem itemTP1 = new InputItem("TP1", null,
+            // Item RC1: User demands a recommendation
+            InputItem itemRC1 = new InputItem("RC1", null,
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionTP1 = new InputAction(tasteProfilingDialogue.Context, "TP2");
-            inputActionTP1.PatternList.Add(new Pattern("Taste profiling"));
-            itemTP1.InputActionList.Add(inputActionTP1);
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP1);
+            InputAction inputActionRC1 = new InputAction(recommendationDialogue.Context, "RC2");
+            inputActionRC1.PatternList.Add(new Pattern("Recommend me a movie"));
+            itemRC1.InputActionList.Add(inputActionRC1);
+            recommendationDialogue.DialogueItemList.Add(itemRC1);
 
-            // Item TP2: Describe rating procedure
-            OutputItem itemTP2 = new OutputItem("TP2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
-            itemTP2.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP3");
-            itemTP2.OutputAction.PatternList.Add(new Pattern("I say movie, you say rating"));
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP2);
+            // Item RC2: Describe rating procedure
+            OutputItem itemRC2 = new OutputItem("RC2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
+            itemRC2.OutputAction = new OutputAction(recommendationDialogue.Context, "RC3");
+            itemRC2.OutputAction.PatternList.Add(new Pattern("I will search for a suitable movie, just a moment"));
+            recommendationDialogue.DialogueItemList.Add(itemRC2);
 
-            // Item TP3: Get random unseen movie to rate
-            TasteProfilingItem itemTP3 = new TasteProfilingItem("TP3", new List<string>() { AgentConstants.QUERY_TAG_5 },
-                inputMaximumRepetitionCount, AgentConstants.QUERY_TAG_1, tasteProfilingDialogue.Context, "TP4", tasteProfilingDialogue.Context, "TP7");
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP3);
+            // Item RC3: Get random unseen movie to rate
+            RecommendationItem itemRC3 = new RecommendationItem("RC3", new List<string>() { AgentConstants.QUERY_TAG_5 }, AgentConstants.QUERY_TAG_1);
+            itemRC3.OutputAction = new OutputAction(recommendationDialogue.Context, "RC4");
+            recommendationDialogue.DialogueItemList.Add(itemRC3);
 
-            // Item TP4: Ask user for rating between 1 and 10
-            OutputItem itemTP4 = new OutputItem("TP4", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 10);
-            itemTP4.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP5");
-            itemTP4.OutputAction.PatternList.Add(new Pattern("Rate" + " " + AgentConstants.QUERY_TAG_1));
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP4);
+            // Item RC4: Recommend the movie
+            OutputItem itemRC4 = new OutputItem("RC4", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 10);
+            itemRC4.OutputAction = new OutputAction("", "");
+            itemRC4.OutputAction.PatternList.Add(new Pattern("How about" + " " + AgentConstants.QUERY_TAG_1));
+            recommendationDialogue.DialogueItemList.Add(itemRC4);
 
-            // Item TP5: Give rating
-            InputItem itemTP5 = new InputItem("TP5", new List<string>() { AgentConstants.QUERY_TAG_2 },
-                inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionTP5 = new InputAction(tasteProfilingDialogue.Context, "TP6");
-            inputActionTP5.PatternList.Add(new Pattern("" + AgentConstants.QUERY_TAG_2));
-            itemTP5.InputActionList.Add(inputActionTP5);
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP5);
+            // TODO: yes/no 
 
-            // Item TP6: Insert rating into ultraManager ratingList
-            RatingItem itemTP6 = new RatingItem("TP6", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 });
-            itemTP6.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP3"); // Get another rating
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP6);
+            // TODO: if yes --> openRaing = true
 
-            // Item TP7: Successfuly completed taste profiling
-            OutputItem itemTP7 = new OutputItem("TP7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
-            itemTP7.OutputAction = new OutputAction("", "");
-            itemTP7.OutputAction.PatternList.Add(new Pattern("You have successfuly completed your taste profile"));
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP7);
+            // TODO: if no --> recommend other movie
+            
 
-            agent.DialogueList.Add(tasteProfilingDialogue);
+            agent.DialogueList.Add(recommendationDialogue);
         }
 
 

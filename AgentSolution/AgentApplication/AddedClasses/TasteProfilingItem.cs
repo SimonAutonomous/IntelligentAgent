@@ -40,7 +40,7 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             this.outputQueryTag = outputQueryTag;
         }
 
-        /* public override void Initialize(Agent ownerAgent) // TODO use patter list
+        /* public override void Initialize(Agent ownerAgent) // TODO use pattern list
          {
              base.Initialize(ownerAgent);
              //foreach (Pattern pattern in outputAction.PatternList)
