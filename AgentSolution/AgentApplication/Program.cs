@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using AgentApplication.AddedClasses;
 using System.Runtime.Serialization;
 using ObjectSerializerLibrary;
+using System.Web.Script.Serialization;
+using AgentLibrary;
 
 namespace AgentApplication
 {
@@ -55,16 +57,52 @@ namespace AgentApplication
             //    }
             //}
 
-
             var _ultraManager = UltraManager.Instance;
 
-            Movie movie1 = new Movie("Pulp fiction", 1991, 8.9);
-            Movie movie2 = new Movie("The big lebowski", 1991, 8.9);
-            Movie movie3 = new Movie("Rum diary", 1991, 8.9);
-            Movie movie4 = new Movie("The room", 1991, 8.9);
-            Movie movie5 = new Movie("Chinatown", 1991, 8.9);
-            Movie movie6 = new Movie("Get out", 1991, 8.9);
-            Movie movie7 = new Movie("Jaws", 1991, 8.9);
+            /*
+            string url = "http://www.omdbapi.com/?t=scream&apikey=c983ca13";
+            using (WebClient wc = new WebClient())
+            {
+                var json = wc.DownloadString(url);
+                JavaScriptSerializer oJS = new JavaScriptSerializer();
+                ImdbEntity obj = new ImdbEntity();
+                obj = oJS.Deserialize<ImdbEntity>(json);
+                if (obj.Response == "True")
+                {
+                    string movieTitle = obj.Title;
+                    double imdbRating = Convert.ToDouble(obj.imdbRating);
+                    int year = Convert.ToInt16(obj.Year);
+
+                    Movie newMovie = new Movie(movieTitle, year, imdbRating);
+                    Debug.WriteLine(newMovie.Title);
+                    Debug.WriteLine(newMovie.Year);
+                    Debug.WriteLine(newMovie.ImdbRating);
+                    _ultraManager.MovieList.Add(newMovie);
+
+                }
+                else
+                {
+                    Debug.WriteLine("not found");
+                }
+            }
+            */
+            /*string test = "Imdb|" + " " + "scream";
+            List<string> requestSplit = test.Split(new char[] { AgentConstants.INTERNET_SEARCH_REQUEST_SEPARATOR_CHARACTER },
+                StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
+            {
+                string txtMovieName = requestSplit[1].Replace(" ", "");
+                Debug.WriteLine(txtMovieName.Trim());
+            }*/
+
+
+            Movie movie1 = new Movie("Pulp fiction", 1991, 8.9, "Drama");
+            Movie movie2 = new Movie("The big lebowski", 1991, 8.9, "Drama");
+            Movie movie3 = new Movie("Rum diary", 1991, 8.9, "Drama");
+            Movie movie4 = new Movie("The room", 1991, 8.9, "Drama");
+            Movie movie5 = new Movie("Chinatown", 1991, 8.9, "Drama");
+            Movie movie6 = new Movie("Get out", 1991, 8.9, "Drama");
+            Movie movie7 = new Movie("Jaws", 1991, 8.9, "Drama");
 
             _ultraManager.MovieList.Add(movie1);
             _ultraManager.MovieList.Add(movie2);
@@ -193,7 +231,7 @@ namespace AgentApplication
             //ObjectXmlSerializer.SerializeObject("test", user1, typeList);
             //ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
             //User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
-            /*
+
             //Singleton version
             List<Type> typeList = new List<Type>();
             typeList.Add(Type.GetType("UltraManager"));
@@ -204,7 +242,7 @@ namespace AgentApplication
             foreach (var movie in _ultraManagerNew.MovieList)
             {
                 Debug.WriteLine(movie.Title);
-            }*/
+            }
 
             //user10.Ratings.Add(movie3, 3);
 

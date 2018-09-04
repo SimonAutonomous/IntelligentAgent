@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddedClasses\Movie.cs" />
+    <Compile Include="AddedClasses\MovieInformationItem.cs" />
     <Compile Include="AddedClasses\Rating.cs" />
     <Compile Include="AddedClasses\RatingItem.cs" />
     <Compile Include="AddedClasses\RecommendationItem.cs" />

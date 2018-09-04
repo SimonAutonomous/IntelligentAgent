@@ -18,6 +18,7 @@ namespace InternetDataAcquisitionApplication
         static void Main()
         {
 
+            /*
             //1.Search request erstellen => url 
             //2.Get Json from Url (http://www.omdbapi.com) http://www.omdbapi.com/?t=scream&apikey=c983ca13
             //3. Parse Json
@@ -50,7 +51,7 @@ namespace InternetDataAcquisitionApplication
                     throw;
                 }
             }
-
+            */
 
 
 

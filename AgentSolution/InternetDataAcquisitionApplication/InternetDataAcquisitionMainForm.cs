@@ -17,6 +17,10 @@ using AgentLibrary.Memories;
 using CommunicationLibrary;
 using CustomUserControlsLibrary;
 using InternetDataAcquisitionLibrary;
+using System.Web.Script.Serialization;
+using InternetDataAcquisitionApplication.AddedClasses;
+using AgentApplication.AddedClasses;
+using System.Diagnostics;
 
 namespace InternetDataAcquisitionApplication
 {
@@ -38,6 +42,8 @@ namespace InternetDataAcquisitionApplication
 
         private List<RSSDownloader> rssDownloaderList = null;
         private List<InternetItem> itemList = null;
+
+        //private readonly UltraManager _ultraManager = UltraManager.Instance;
 
         public InternetDataAcquisitionMainForm()
         {
@@ -259,8 +265,73 @@ namespace InternetDataAcquisitionApplication
                 }
                 else { return false; }
             }
+            else if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
+            {
+                string txtMovieName = requestSplit[1].Replace(" ", "");
+                string url = "http://www.omdbapi.com/?t=" + txtMovieName.Trim() + "&apikey=c983ca13";
+                // http://www.omdbapi.com/?t=scream&apikey=c983ca13 url for the movie scream
+                using (WebClient wc = new WebClient())
+                {
+                    var json = wc.DownloadString(url);
+                    JavaScriptSerializer oJS = new JavaScriptSerializer();
+                    ImdbEntity obj = new ImdbEntity();
+                    obj = oJS.Deserialize<ImdbEntity>(json);
+                    if (obj.Response == "True")
+                    {
+                        string movieTitle = obj.Title;
+                        double imdbRating = Convert.ToDouble(obj.imdbRating); 
+                        int year = Convert.ToInt16(obj.Year);
+                        string genre = obj.Genre;
+                        //var _ultraManager = UltraManager.Instance;
+
+                        Movie newMovie = new Movie(movieTitle, year, imdbRating, genre);
+                        //_ultraManager.MovieList.Add(newMovie);
+                        // Send only the first sentence:
+                        string message = "[" + AgentConstants.LONG_TERM_MEMORY_NAME + "]";
+                        message += "[{";
+                        message += "testCategory";
+                        message += "}]";
+                        string movieInformationString = newMovie.Title + " is a " + newMovie.Genre + " from " + newMovie.Year + " that has a imdb rating of " + newMovie.ImdbRating;
+                        message += "[name = testName" + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "description = " + movieInformationString + "]";
+                        client.Send(message);
+                        ThreadSafeShowSearchResult(message);
+                    }
+                    else
+                    {
+                        string message = "[" + AgentConstants.LONG_TERM_MEMORY_NAME + "]";
+                        message += "[{";
+                        message += "testCategory";
+                        message += "}]";
+                        string movieInformationString = "the movie could not be found";
+                        message += "[name = testName" + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "description = " + movieInformationString + "]";
+                        client.Send(message);
+                        ThreadSafeShowSearchResult(message);
+                        //Debug.WriteLine("not found");
+                        //string message = "neinneinneienineinneinneinnein";
+                        //client.Send(message);
+                        //ThreadSafeShowSearchResult(message);
+                        return false;
+                    }
+                }
+                string message2 = "[" + AgentConstants.LONG_TERM_MEMORY_NAME + "]";
+                message2 += "[{";
+                message2 += "testCategory";
+                message2 += "}]";
+                string movieInformationString2 = "the movie could not be found";
+                message2 += "[name = testName" + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "description = " + movieInformationString2 + "]";
+                client.Send(message2);
+                ThreadSafeShowSearchResult(message2);
+            }
             else // To be written: Processing other requests than RSS requests and Wikipedia searches
             {
+                string message2 = "[" + AgentConstants.LONG_TERM_MEMORY_NAME + "]";
+                message2 += "[{";
+                message2 += "testCategory";
+                message2 += "}]";
+                string movieInformationString2 = "the movie could not be found";
+                message2 += "[name = testName" + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "description = " + movieInformationString2 + "]";
+                client.Send(message2);
+                ThreadSafeShowSearchResult(message2);
                 return false;
             }
             return true;
