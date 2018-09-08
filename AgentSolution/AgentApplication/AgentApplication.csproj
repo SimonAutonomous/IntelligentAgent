@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddedClasses\DataTypeSelector.cs" />
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\Rating.cs" />
     <Compile Include="AddedClasses\RatingItem.cs" />

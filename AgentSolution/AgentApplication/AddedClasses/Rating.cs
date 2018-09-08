@@ -13,6 +13,8 @@ namespace AgentApplication.AddedClasses
         [DataMember]
         public double RatingValue { get; set; }
 
+        public Rating() { }
+
         public Rating(string movieTitle, string userName, double ratingValue)
         {
             this.MovieTitle = movieTitle;

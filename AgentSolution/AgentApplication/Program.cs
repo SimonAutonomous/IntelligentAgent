@@ -230,6 +230,12 @@ namespace AgentApplication
 
             //Linq Queries
             //users.First(user => user.Name == "newUser2").Ratings.Add(movies.First(),15);
+            //_ultraManager.SaveToFile(DataTypeSelector.MovieList);
+            _ultraManager.LoadFromFile(DataTypeSelector.MovieList);
+
+            //_ultraManager.GetFromFile("testSave.xml", newMovieList);
+
+
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
