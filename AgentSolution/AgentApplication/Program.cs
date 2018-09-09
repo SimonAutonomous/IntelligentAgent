@@ -57,7 +57,7 @@ namespace AgentApplication
 
 
             var _ultraManager = UltraManager.Instance;
-
+            /*
             Movie movie1 = new Movie("Pulp fiction", 1991, 8.9);
             Movie movie2 = new Movie("The big lebowski", 1991, 8.9);
             Movie movie3 = new Movie("Rum diary", 1991, 8.9);
@@ -166,7 +166,7 @@ namespace AgentApplication
             _ultraManager.UserList.Add(user5);
             User user6 = new User("fredrik", false, "");
             _ultraManager.UserList.Add(user6);
-
+            */
 
             //var userList = new List<User>
             //{
@@ -232,6 +232,8 @@ namespace AgentApplication
             //users.First(user => user.Name == "newUser2").Ratings.Add(movies.First(),15);
             //_ultraManager.SaveToFile(DataTypeSelector.MovieList);
             _ultraManager.LoadFromFile(DataTypeSelector.MovieList);
+            _ultraManager.LoadFromFile(DataTypeSelector.UserList);
+            _ultraManager.LoadFromFile(DataTypeSelector.RatingList);
 
             //_ultraManager.GetFromFile("testSave.xml", newMovieList);
 

@@ -15,7 +15,7 @@ namespace AgentApplication.AddedClasses
     public sealed partial class UltraManager
     {
         private const string _userFilePath = "users";
-        private const string _fmovieFilePath = "movies";
+        private const string _movieFilePath = "movies";
         private const string _ratingFilePath = "ratings";
 
         private static readonly Lazy<UltraManager> Lazy =
@@ -37,7 +37,7 @@ namespace AgentApplication.AddedClasses
         {
             MovieList.CollectionChanged += (sender, e) =>
             {
-                SerializeList<ObservableCollection<Movie>>(_fmovieFilePath, MovieList);
+                SerializeList<ObservableCollection<Movie>>(_movieFilePath, MovieList);
             };
             UserList.CollectionChanged += (sender, e) =>
             {
@@ -69,20 +69,20 @@ namespace AgentApplication.AddedClasses
             switch (dataTypeSelector)
             {
                 case DataTypeSelector.MovieList:
-                    {
-                        MovieList = DeserializeList<ObservableCollection<Movie>>(_fmovieFilePath, MovieList);
-                        return;
-                    }
+                {
+                    MovieList = DeserializeList<ObservableCollection<Movie>>(_movieFilePath, MovieList);
+                    return;
+                }
                 case DataTypeSelector.UserList:
-                    {
-                        UserList = DeserializeList<ObservableCollection<User>>(_userFilePath, UserList);
-                        return;
-                    }
+                {
+                    UserList = DeserializeList<ObservableCollection<User>>(_userFilePath, UserList);
+                    return;
+                }
                 case DataTypeSelector.RatingList:
-                    {
-                        RatingList = DeserializeList<ObservableCollection<Rating>>(_ratingFilePath, RatingList);
-                        return;
-                    }
+                {
+                    RatingList = DeserializeList<ObservableCollection<Rating>>(_ratingFilePath, RatingList);
+                    return;
+                }
             }
         }
 
