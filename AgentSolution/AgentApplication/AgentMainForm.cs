@@ -172,6 +172,7 @@ namespace AgentApplication
             GenerateRatingDialogue();
             GenerateTasteProfilingDialogue();
             GenerateRecommendationDialogue();
+            GenerateMovieInformationDialogue();
             // Generate existing dialogues
             GenerateWakeUpDialogue();
             GenerateTimeDialogue();
@@ -415,6 +416,42 @@ namespace AgentApplication
             agent.DialogueList.Add(recommendationDialogue);
         }
 
+        // Generate movie information dialogue
+        private void GenerateMovieInformationDialogue()
+        {
+            Boolean isAlwaysAvailable = true;
+            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
+            int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
+            double searchWaitingTime = 5.0;
+
+            Dialogue movieInformationDialogue = new Dialogue("MovieInformationDialogue", isAlwaysAvailable);
+
+            // The user asks a question of the form "What is a <Q>"?
+            InputItem itemMI1 = new InputItem("MI1", new List<string>() { AgentConstants.QUERY_TAG_1 },
+                                              inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            InputAction inputActionMI1 = new InputAction(movieInformationDialogue.Context, "MI2");
+            inputActionMI1.PatternList.Add(new Pattern("Tell me about" + " " + AgentConstants.QUERY_TAG_1));
+            itemMI1.InputActionList.Add(inputActionMI1);
+            movieInformationDialogue.DialogueItemList.Add(itemMI1);
+
+            // The agent searches the existing movies in ultraManager
+            MovieInformationItem itemMI2 = new MovieInformationItem("MI2", new List<string>() { AgentConstants.QUERY_TAG_1 },
+                "", "", movieInformationDialogue.Context, "MI3");
+            movieInformationDialogue.DialogueItemList.Add(itemMI2);
+
+            // Run a search...
+            OutputItem itemMI3 = new OutputItem("MI3", AgentConstants.INTERNET_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1}, false, 1);
+            itemMI3.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI4");
+            itemMI3.OutputAction.PatternList.Add(new Pattern("Imdb |" + " " + AgentConstants.QUERY_TAG_1));
+            movieInformationDialogue.DialogueItemList.Add(itemMI3);
+            //"Imdb|" 
+            // ...and await the results (and the search ultraManager again)
+            WaitItem itemMI4 = new WaitItem("MI4", searchWaitingTime);
+            itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI2");
+            movieInformationDialogue.DialogueItemList.Add(itemMI4);
+
+            agent.DialogueList.Add(movieInformationDialogue);
+        }
 
 
         #endregion

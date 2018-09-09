@@ -16,19 +16,23 @@ namespace AgentApplication.AddedClasses
         public int Year { get; set; }
         [DataMember]
         public double ImdbRating { get; set; }
+        [DataMember]
+        public string Genre { get; set; }
 
         public Movie()
         {
             Title = "Test Movie";
             Year = 9999;
             ImdbRating = 0.1;
+            Genre = "Drama";
         }
 
-        public Movie(string title, int year, double imdbRating)
+        public Movie(string title, int year, double imdbRating, string genre)
         {
             Title = title;
             Year = year;
             ImdbRating = imdbRating;
+            Genre = genre;
         }
     }
 }

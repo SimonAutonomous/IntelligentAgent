@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -97,6 +98,10 @@
     <ProjectReference Include="..\..\Libraries\InternetDataAcquisitionLibrary\InternetDataAcquisitionLibrary.csproj">
       <Project>{c67420c1-6d52-43d1-bcca-947c7bb8a53b}</Project>
       <Name>InternetDataAcquisitionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgentApplication\AgentApplication.csproj">
+      <Project>{A8A302DC-8C5C-49C0-8333-693351BA5106}</Project>
+      <Name>AgentApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
