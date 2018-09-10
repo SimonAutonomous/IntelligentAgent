@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddedClasses\DataTypeSelector.cs" />
+    <Compile Include="AddedClasses\ImdbEntity.cs" />
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\MovieInformationItem.cs" />
     <Compile Include="AddedClasses\Rating.cs" />

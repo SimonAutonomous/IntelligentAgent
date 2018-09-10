@@ -442,13 +442,31 @@ namespace AgentApplication
             // Run a search...
             OutputItem itemMI3 = new OutputItem("MI3", AgentConstants.INTERNET_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1}, false, 1);
             itemMI3.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI4");
-            itemMI3.OutputAction.PatternList.Add(new Pattern("Imdb |" + " " + AgentConstants.QUERY_TAG_1));
+            itemMI3.OutputAction.PatternList.Add(new Pattern(/*"Imdb |"*/ "Imdb|Object|" + " " + AgentConstants.QUERY_TAG_1));
             movieInformationDialogue.DialogueItemList.Add(itemMI3);
+            /*
             //"Imdb|" 
-            // ...and await the results (and the search ultraManager again)
+            // ...and await the results (and then search ultraManager again)
             WaitItem itemMI4 = new WaitItem("MI4", searchWaitingTime);
             itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI2");
+            movieInformationDialogue.DialogueItemList.Add(itemMI4);*/
+
+            // ...and await the results (and the search memory again)
+            WaitItem itemMI4 = new WaitItem("MI4", searchWaitingTime);
+            itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI5");
             movieInformationDialogue.DialogueItemList.Add(itemMI4);
+
+            // The agent searches its long-term memory for (the description of) an object (tag = object) with the required name
+            MemorySearchItem itemMI5 = new MemorySearchItem("MI5", AgentConstants.LONG_TERM_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_1 },
+                new List<string>() { "object" }, TagSearchMode.Or, "name", "description", AgentConstants.QUERY_TAG_3, movieInformationDialogue.Context, "MI7",
+                movieInformationDialogue.Context, "MI2");
+            movieInformationDialogue.DialogueItemList.Add(itemMI5);
+
+            // If the item IS found:
+            OutputItem itemMI7 = new OutputItem("MI7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_3 }, false, 1);
+            itemMI7.OutputAction = new OutputAction("", "");
+            itemMI7.OutputAction.PatternList.Add(new Pattern(AgentConstants.QUERY_TAG_3));
+            movieInformationDialogue.DialogueItemList.Add(itemMI7);
 
             agent.DialogueList.Add(movieInformationDialogue);
         }
