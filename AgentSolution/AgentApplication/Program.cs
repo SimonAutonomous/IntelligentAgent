@@ -59,11 +59,15 @@ namespace AgentApplication
             //}
             
             var _ultraManager = UltraManager.Instance;
-            _ultraManager.LoadFromFile(DataTypeSelector.MovieList);
-            _ultraManager.LoadFromFile(DataTypeSelector.UserList);
-            _ultraManager.LoadFromFile(DataTypeSelector.RatingList);
-            /*
-            string test = "Imdb|" + " " + "scream";
+            //_ultraManager.LoadFromFile(DataTypeSelector.MovieList);
+            //_ultraManager.LoadFromFile(DataTypeSelector.UserList);
+            //_ultraManager.LoadFromFile(DataTypeSelector.RatingList);
+            //List<string> lines = new List<string>();
+            //lines.Add("line1");
+            //lines.Add("line2");
+            //System.IO.File.WriteAllLines(@"C:\Users\Simon\Desktop\WriteLines.txt", lines);
+
+            string test = "Imdb|" + " " + "saw";
             List<string> requestSplit = test.Split(new char[] { AgentConstants.INTERNET_SEARCH_REQUEST_SEPARATOR_CHARACTER },
                 StringSplitOptions.RemoveEmptyEntries).ToList();
             if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
@@ -89,7 +93,7 @@ namespace AgentApplication
                         Debug.WriteLine(newMovie.Year);
                         Debug.WriteLine(newMovie.ImdbRating);
                         Debug.WriteLine(newMovie.Genre);
-                        _ultraManager.MovieList.Add(newMovie);
+                        //_ultraManager.MovieList.Add(newMovie);
 
                     }
                     else
@@ -98,7 +102,7 @@ namespace AgentApplication
                     }
                 }
             }
-            */
+            
             
 
             

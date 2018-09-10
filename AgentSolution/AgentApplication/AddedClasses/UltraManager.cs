@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 namespace AgentApplication.AddedClasses
 {
     [DataContract]
-    public sealed partial class UltraManager
+    public sealed/* partial*/ class UltraManager
     {
         private const string _userFilePath = "users";
         private const string _movieFilePath = "movies";
