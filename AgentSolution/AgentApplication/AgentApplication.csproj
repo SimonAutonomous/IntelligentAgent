@@ -57,6 +57,7 @@
     <Compile Include="AddedClasses\ImdbEntity.cs" />
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\MovieInformationItem.cs" />
+    <Compile Include="AddedClasses\OpenRatingItem.cs" />
     <Compile Include="AddedClasses\Rating.cs" />
     <Compile Include="AddedClasses\RatingItem.cs" />
     <Compile Include="AddedClasses\RecommendationItem.cs" />

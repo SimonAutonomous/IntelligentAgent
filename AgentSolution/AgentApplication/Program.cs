@@ -58,8 +58,8 @@ namespace AgentApplication
             //    }
             //}
             
-            var _ultraManager = UltraManager.Instance;
-            _ultraManager.UserList[0] = new User(_ultraManager.UserList[0].Name, true, "Drive");
+            //var _ultraManager = UltraManager.Instance;
+            //_ultraManager.UserList[0] = new User(_ultraManager.UserList[0].Name, false, "");
 
             //list[someIndex].SomeProperty = someValue;
             //_ultraManager.LoadFromFile(DataTypeSelector.MovieList);

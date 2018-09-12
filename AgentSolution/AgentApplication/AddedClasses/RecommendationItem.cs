@@ -150,6 +150,18 @@ namespace AgentApplication.AddedClasses
             {
                 int randomIndex = ownerAgent.RandomNumberGenerator.Next(0, unseenMovies.Count);
                 string recommendation = unseenMovies[randomIndex];
+
+                // set openRating so that agent asks user to rate the movie after he has seen it --> next time introductionDialogue is triggerd 
+                int listIndexOfCurrentUser = 0;
+                foreach (var user in _ultraManager.UserList)
+                {
+                    if (user.Name == currentUser)
+                    {
+                        listIndexOfCurrentUser = _ultraManager.UserList.IndexOf(user);
+                    }
+                }
+                _ultraManager.UserList[listIndexOfCurrentUser] = new User(_ultraManager.UserList[listIndexOfCurrentUser].Name, true, recommendation);
+
                 StringMemoryItem rateMemoryItem = new StringMemoryItem();
                 rateMemoryItem.TagList = new List<string>() { outputQueryTag };
                 rateMemoryItem.SetContent(recommendation);

@@ -28,7 +28,8 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
 
         public TasteProfilingItem() { }
 
-        public TasteProfilingItem(string id, List<string> inputQueryTagList, int maximumRepetitionCount, string outputQueryTag, string successTargetContext, string successTargetID, string failureTargetContext, string failureTargetID)
+        public TasteProfilingItem(string id, List<string> inputQueryTagList, int maximumRepetitionCount, string outputQueryTag, string successTargetContext,
+            string successTargetID, string failureTargetContext, string failureTargetID)
         {
             this.id = id;
             this.inputQueryTagList = inputQueryTagList;
