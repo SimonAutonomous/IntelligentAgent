@@ -296,21 +296,16 @@ namespace InternetDataAcquisitionApplication
 
                         //TODO: send to working memory
 
-                        //string message = "[" + AgentConstants.LONG_TERM_MEMORY_NAME + "]";
-                        //message += "[{";
-                        //message += category;
-                        //message += "}]";
-                        //string name = "";
-                        //List<string> nameSplit = requestString.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                        //foreach (string nameSplitItem in nameSplit)
-                        //{
-                        //    name += nameSplitItem + " ";
-                        //}
-                        //name = name.TrimEnd(new char[] { ' ' });
-                        //message += "[name = " + name + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "description = " + messageContent + "]";
-                        //client.Send(message);
-                        //ThreadSafeShowSearchResult(message);
-
+                        string message = "[" + AgentConstants.WORKING_MEMORY_NAME + "]";
+                        message += "[{";
+                        message += "movie";
+                        message += "}]";
+                        message += "[title = " + newMovie.Title + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "infoToProcess = " + 
+                                   newMovie.Title + "," + newMovie.Year + "," + newMovie.ImdbRating + "," + newMovie.Genre + "]";
+                        //AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "imdbRating = " + newMovie.ImdbRating +
+                        //AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "genre = " + newMovie.Genre + "]";
+                        client.Send(message);
+                        ThreadSafeShowSearchResult(message);
                     }
                     else
                     {

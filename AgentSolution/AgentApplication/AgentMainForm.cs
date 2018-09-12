@@ -228,8 +228,6 @@ namespace AgentApplication
 
         #region New agent dialogues
 
-        // TODO Nice dialogue --> It sure is nice!
-
         // User introduction
         private void GenerateIntroductionDialogue()
         {
@@ -260,9 +258,6 @@ namespace AgentApplication
             introductionDialogue.DialogueItemList.Add(itemID3);
 
             //TODO implement with question --> yes or no
-
-
-
             
             // Item ID4: Trigger tasteProfilingDialogue
 
@@ -411,7 +406,6 @@ namespace AgentApplication
             // TODO: if yes --> openRaing = true
 
             // TODO: if no --> recommend other movie
-            
 
             agent.DialogueList.Add(recommendationDialogue);
         }
@@ -444,31 +438,28 @@ namespace AgentApplication
             itemMI3.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI4");
             itemMI3.OutputAction.PatternList.Add(new Pattern(/*"Imdb |"*/ "Imdb|" + " " + AgentConstants.QUERY_TAG_1));
             movieInformationDialogue.DialogueItemList.Add(itemMI3);
-            /*
-            //"Imdb|" 
-            // ...and await the results (and then search ultraManager again)
-            WaitItem itemMI4 = new WaitItem("MI4", searchWaitingTime);
-            itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI2");
-            movieInformationDialogue.DialogueItemList.Add(itemMI4);*/
 
             // ...and await the results (and the search memory again)
             WaitItem itemMI4 = new WaitItem("MI4", searchWaitingTime);
-            itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI2");
+            itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI5");
             movieInformationDialogue.DialogueItemList.Add(itemMI4);
 
-            //TODO: 1) Check working memory if found --> 2.1) insert into _ultraManager (new InsertionItem) and call MI2 again //// if not found --> 2.2) Output item: im sorry didn't find that movie 
-
             // The agent searches its long-term memory for (the description of) an object (tag = object) with the required name
-            //MemorySearchItem itemMI5 = new MemorySearchItem("MI5", AgentConstants.LONG_TERM_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_1 },
-            //    new List<string>() { "object" }, TagSearchMode.Or, "name", "description", AgentConstants.QUERY_TAG_3, movieInformationDialogue.Context, "MI7",
-            //    movieInformationDialogue.Context, "MI2");
-            //movieInformationDialogue.DialogueItemList.Add(itemMI5);
+            MemorySearchItem itemMI5 = new MemorySearchItem("MI5", AgentConstants.WORKING_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_1 },
+                new List<string>() { "movie" }, TagSearchMode.Or, "title", "infoToProcess", AgentConstants.QUERY_TAG_2, movieInformationDialogue.Context, "MI6",
+                movieInformationDialogue.Context, "MI7");
+            movieInformationDialogue.DialogueItemList.Add(itemMI5);
 
-            // If the item IS found:
-            //OutputItem itemMI7 = new OutputItem("MI7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_3 }, false, 1);
-            //itemMI7.OutputAction = new OutputAction("", "");
-            //itemMI7.OutputAction.PatternList.Add(new Pattern(AgentConstants.QUERY_TAG_3));
-            //movieInformationDialogue.DialogueItemList.Add(itemMI7);
+            // Insert Movie from working-memory into ultraManager
+            UltraManagerInsertionItem itemMI6 = new UltraManagerInsertionItem("MI6",
+                new List<string>() {AgentConstants.QUERY_TAG_2}, movieInformationDialogue.Context, "MI2");
+            movieInformationDialogue.DialogueItemList.Add(itemMI6);
+
+            // If the movie was not found in working memory --> internet data aquisition failed
+            OutputItem itemMI7 = new OutputItem("MI7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 10);
+            itemMI7.OutputAction = new OutputAction("", "");
+            itemMI7.OutputAction.PatternList.Add(new Pattern("I am sorry but no information regarding " + " " + AgentConstants.QUERY_TAG_1 + " could be found"));
+            movieInformationDialogue.DialogueItemList.Add(itemMI7);
 
             agent.DialogueList.Add(movieInformationDialogue);
         }

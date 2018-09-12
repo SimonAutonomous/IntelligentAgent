@@ -62,6 +62,7 @@
     <Compile Include="AddedClasses\RecommendationItem.cs" />
     <Compile Include="AddedClasses\TasteProfilingItem.cs" />
     <Compile Include="AddedClasses\UltraManager.cs" />
+    <Compile Include="AddedClasses\UltraManagerInsertionItem.cs" />
     <Compile Include="AddedClasses\User.cs" />
     <Compile Include="AddedClasses\UserIntroductionItem.cs" />
     <Compile Include="AgentMainForm.cs">

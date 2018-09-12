@@ -160,7 +160,6 @@ namespace AgentApplication.AddedClasses
                 noMoreRecommendations = true;
             }
 
-
             AsynchronousDialogueItemEventArgs e = new AsynchronousDialogueItemEventArgs(originalContext, outputAction.TargetContext, outputAction.TargetID);
             OnRunCompleted(e);
         }

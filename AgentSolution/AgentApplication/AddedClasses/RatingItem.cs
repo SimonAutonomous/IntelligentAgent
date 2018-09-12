@@ -76,7 +76,7 @@ namespace AgentApplication.AddedClasses
                     }
                 }
             }
-            if(existingRating == false)
+            if(existingRating == false && movieRating > 0) // if someone rates a movie with 0 means that the current user hasn't seen the movie
             {
                 var rating = new Rating(movieTitle, currentUser, movieRating);
                _ultraManager.RatingList.Add(rating);
