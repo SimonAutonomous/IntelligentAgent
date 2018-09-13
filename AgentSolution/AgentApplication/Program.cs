@@ -12,7 +12,6 @@ using System.Runtime.Serialization;
 using ObjectSerializerLibrary;
 using System.Web.Script.Serialization;
 using AgentLibrary;
-using InternetDataAcquisitionApplication.AddedClasses;
 
 namespace AgentApplication
 {
@@ -24,103 +23,6 @@ namespace AgentApplication
         [STAThread]
         static void Main()
         {
-            //TODO: copy to InetDataAcq
-            //1. Search request erstellen => url 
-            //2. Get Json from Url (http://www.omdbapi.com) http://www.omdbapi.com/?t=scream&apikey=c983ca13
-            //3. Parse Json 
-            //4. Create Movies
-
-            //var antwort = GET("http://www.omdbapi.com/?t=scream&apikey=c983ca13");
-            //Debug.WriteLine(antwort);
-
-            //string GET(string url)
-            //{
-            //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            //    try
-            //    {
-            //        WebResponse response = request.GetResponse();
-            //        using (Stream responseStream = response.GetResponseStream())
-            //        {
-            //            StreamReader reader = new StreamReader(responseStream, System.Text.Encoding.UTF8);
-            //            return reader.ReadToEnd();
-            //        }
-            //    }
-            //    catch (WebException ex)
-            //    {
-            //        WebResponse errorResponse = ex.Response;
-            //        using (Stream responseStream = errorResponse.GetResponseStream())
-            //        {
-            //            StreamReader reader = new StreamReader(responseStream, System.Text.Encoding.GetEncoding("utf-8"));
-            //            String errorText = reader.ReadToEnd();
-            //            // log errorText
-            //        }
-            //        throw;
-            //    }
-            //}
-            
-            //var _ultraManager = UltraManager.Instance;
-            //_ultraManager.UserList[0] = new User(_ultraManager.UserList[0].Name, false, "");
-
-            //list[someIndex].SomeProperty = someValue;
-            //_ultraManager.LoadFromFile(DataTypeSelector.MovieList);
-            //_ultraManager.LoadFromFile(DataTypeSelector.UserList);
-            //_ultraManager.LoadFromFile(DataTypeSelector.RatingList);
-            //List<string> lines = new List<string>();
-            //lines.Add("line1");
-            //lines.Add("line2");
-            //System.IO.File.WriteAllLines(@"C:\Users\Simon\Desktop\WriteLines.txt", lines);
-
-            //string test = "Imdb|" + " " + "saw";
-            //List<string> requestSplit = test.Split(new char[] { AgentConstants.INTERNET_SEARCH_REQUEST_SEPARATOR_CHARACTER },
-            //    StringSplitOptions.RemoveEmptyEntries).ToList();
-            //if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
-            //{
-            //    string txtMovieName = requestSplit[1].Replace(" ", "");
-            //    Debug.WriteLine(txtMovieName.Trim());
-            //    string url = "http://www.omdbapi.com/?t=" + txtMovieName.Trim() + "&apikey=c983ca13";
-            //    using (WebClient wc = new WebClient())
-            //    {
-            //        var json = wc.DownloadString(url);
-            //        JavaScriptSerializer oJS = new JavaScriptSerializer();
-            //        ImdbEntity obj = new ImdbEntity();
-            //        obj = oJS.Deserialize<ImdbEntity>(json);
-            //        if (obj.Response == "True")
-            //        {
-            //            string movieTitle = obj.Title;
-            //            double imdbRating = Convert.ToDouble(obj.imdbRating);
-            //            int year = Convert.ToInt16(obj.Year);
-            //            string genre = obj.Genre;
-
-            //            Movie newMovie = new Movie(movieTitle, year, imdbRating, genre);
-            //            Debug.WriteLine(newMovie.Title);
-            //            Debug.WriteLine(newMovie.Year);
-            //            Debug.WriteLine(newMovie.ImdbRating);
-            //            Debug.WriteLine(newMovie.Genre);
-            //            //_ultraManager.MovieList.Add(newMovie);
-
-            //        }
-            //        else
-            //        {
-            //            Debug.WriteLine("not found");
-            //        }
-            //    }
-            //}
-
-
-
-
-
-
-
-            /*string test = "Imdb|" + " " + "scream";
-            List<string> requestSplit = test.Split(new char[] { AgentConstants.INTERNET_SEARCH_REQUEST_SEPARATOR_CHARACTER },
-                StringSplitOptions.RemoveEmptyEntries).ToList();
-            if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
-            {
-                string txtMovieName = requestSplit[1].Replace(" ", "");
-                Debug.WriteLine(txtMovieName.Trim());
-            }*/
-
             /*
             Movie movie1 = new Movie("Pulp fiction", 1991, 8.9, "Drama");
             Movie movie2 = new Movie("The big lebowski", 1991, 8.9, "Drama");
@@ -137,7 +39,6 @@ namespace AgentApplication
             _ultraManager.MovieList.Add(movie5);
             _ultraManager.MovieList.Add(movie6);
             _ultraManager.MovieList.Add(movie7);
-
 
             //jack
             Rating rating11 = new Rating("Pulp fiction", "jack", 2.0);
@@ -232,68 +133,10 @@ namespace AgentApplication
             _ultraManager.UserList.Add(user6);
             */
 
-            //var userList = new List<User>
-            //{
-            //    new User("newUser2", false, ""),
-            //    new User("newUser3", false, ""),
-            //    new User("newUser4", false, "")
-            //};
-
             //foreach (var user in userList)
             //{
             //    Debug.WriteLine(user.Name);
             //}
-
-
-            //-----------------------------------------------------------------------------------------------------------------
-            //SERIALIZATION
-            //https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/data-contract-known-types
-            //TODO: how to use without changing library?
-            //ObjectXmlSerializer sdata = new ObjectXmlSerializer();
-
-            //User version
-            //List<Type> typeList = new List<Type>();
-            //typeList.Add(Type.GetType("Dicitonary"));
-            //ObjectXmlSerializer.SerializeObject("test", user1, typeList);
-            //ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
-            //User user10 = (User)ObjectXmlSerializer.ObtainSerializedObject("test", typeof(User), typeList);
-            /*
-            //Singleton version
-            List<Type> typeList = new List<Type>();
-            typeList.Add(Type.GetType("UltraManager"));
-            ObjectXmlSerializer.SerializeObject("testSingleton", _ultraManager, typeList);
-            ObjectXmlSerializer.ObtainSerializedObject("testSingleton", typeof(UltraManager), typeList);
-            UltraManager _ultraManagerNew = (UltraManager)ObjectXmlSerializer.ObtainSerializedObject("testSingleton", typeof(UltraManager), typeList);
-
-            foreach (var movie in _ultraManagerNew.MovieList)
-            {
-                Debug.WriteLine(movie.Title);
-            }*/
-
-            //user10.Ratings.Add(movie3, 3);
-
-            //foreach (var user10Rating in user10.Ratings)
-            //{
-            //    Debug.Write(user10Rating.Value);
-            //}
-            //-----------------------------------------------------------------------------------------------------------------
-
-
-            //foreach (var rating in user1.Ratings)
-            //{
-            //    Debug.WriteLine($"{rating.Key.Title} - {rating.Value}");
-            //}
-
-
-            //var movies = new List<Movie>
-            //{
-            //    new Movie(),
-            //    new Movie(),
-            //    new Movie()
-            //};
-
-            //Linq Queries
-            //users.First(user => user.Name == "newUser2").Ratings.Add(movies.First(),15);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

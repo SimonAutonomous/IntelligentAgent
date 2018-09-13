@@ -173,6 +173,7 @@ namespace AgentApplication
             GenerateTasteProfilingDialogue();
             GenerateRecommendationDialogue();
             GenerateMovieInformationDialogue();
+            
             // Generate existing dialogues
             GenerateWakeUpDialogue();
             GenerateTimeDialogue();
@@ -232,8 +233,8 @@ namespace AgentApplication
         private void GenerateIntroductionDialogue()
         {
             Boolean isAlwaysAvailable = true;
-            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
-            int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
+            double inputTimeoutInterval = double.MaxValue; 
+            int inputMaximumRepetitionCount = int.MaxValue; 
 
             Dialogue introductionDialogue = new Dialogue("IntroductionDialogue", isAlwaysAvailable);
 
@@ -250,34 +251,31 @@ namespace AgentApplication
                 introductionDialogue.Context, "ID3", introductionDialogue.Context, "ID4");
             introductionDialogue.DialogueItemList.Add(itemID2);
 
-            // Item ID3: If new user:
+            // Item ID3: If new user: Agent greets new user and suggests to make a taste profile
             OutputItem itemID3 = new OutputItem("ID3", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_5 }, false, 1);
-            //itemID3.OutputAction = new OutputAction(introductionDialogue.Context, "ID4"); TODO: Add later after adding ID4
-            itemID3.OutputAction = new OutputAction("" , ""); // TODO change back to empty
+            itemID3.OutputAction = new OutputAction("" , ""); 
             itemID3.OutputAction.PatternList.Add(new Pattern("Nice to meet you" + " " + AgentConstants.QUERY_TAG_5 + " " + "I would recommend you make a taste profile"));
             introductionDialogue.DialogueItemList.Add(itemID3);
 
-            //TODO implement with question --> yes or no
-
-            // Item ID4: Trigger tasteProfilingDialogue
+            // Item ID4: If existing user: Agent checks if the user has an open rating from a previous recommendation
             OpenRatingItem itemID4 = new OpenRatingItem("ID4", new List<string>() { AgentConstants.QUERY_TAG_5 },
                 AgentConstants.QUERY_TAG_1, introductionDialogue.Context, "ID6", introductionDialogue.Context, "ID5");
             introductionDialogue.DialogueItemList.Add(itemID4);
 
-            // Item ID5: If existing user without open rating
+            // Item ID5: If existing user without open rating: Agent welcomes user back
             OutputItem itemID5 = new OutputItem("ID5", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_5 }, false, 1);
             itemID5.OutputAction = new OutputAction("", "");
             itemID5.OutputAction.PatternList.Add(new Pattern("Welcome back" + " " + AgentConstants.QUERY_TAG_5));
             introductionDialogue.DialogueItemList.Add(itemID5);
 
-            // Item RD2: Ask user for rating between 1 and 10
+            // Item ID6: If existing user that has an open rating: Agent asks user to rate the movie
             OutputItem itemID6 = new OutputItem("ID6", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_5 }, false, 1);
             itemID6.OutputAction = new OutputAction(introductionDialogue.Context, "ID7");
             itemID6.OutputAction.PatternList.Add(new Pattern("Welcome back" + " " + AgentConstants.QUERY_TAG_5 + " " + "It seems you have an open rating for" + " " + 
                                                              AgentConstants.QUERY_TAG_1 + " " + " how would you rate it from 1 to 10"));
             introductionDialogue.DialogueItemList.Add(itemID6);
 
-            // Item RD3: Give rating
+            // Item ID7: User is expected to leave a rating (rating 0 if user didn't watch the recommended movie from last time
             InputItem itemID7 = new InputItem("ID7", new List<string>() { AgentConstants.QUERY_TAG_2 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionID7 = new InputAction(introductionDialogue.Context, "ID8");
@@ -285,7 +283,7 @@ namespace AgentApplication
             itemID7.InputActionList.Add(inputActionID7);
             introductionDialogue.DialogueItemList.Add(itemID7);
 
-            // Item RD4: Insert rating into ultraManager ratingList
+            // Item ID8: Insert rating into ultraManager ratingList
             RatingItem itemID8 = new RatingItem("ID8", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 });
             itemID8.OutputAction = new OutputAction("", "");
             introductionDialogue.DialogueItemList.Add(itemID8);
@@ -294,15 +292,15 @@ namespace AgentApplication
         }
 
         // User wants to rate a movie
-        private void GenerateRatingDialogue()
+        private void GenerateRatingDialogue() //TODO must ensure that currentUser is in <Q5>
         {
             Boolean isAlwaysAvailable = true;
-            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
-            int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
+            double inputTimeoutInterval = double.MaxValue;
+            int inputMaximumRepetitionCount = int.MaxValue;
 
             Dialogue ratingDialogue = new Dialogue("RatingDialogue", isAlwaysAvailable);
 
-            // Item RD1: User suggests to rate a movie OR triggered by TasteProfilingDialogue
+            // Item RD1: User suggests to rate a movie
             InputItem itemRD1 = new InputItem("RD1", new List<string>() { AgentConstants.QUERY_TAG_1 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionRD1 = new InputAction(ratingDialogue.Context, "RD2");
@@ -310,13 +308,13 @@ namespace AgentApplication
             itemRD1.InputActionList.Add(inputActionRD1);
             ratingDialogue.DialogueItemList.Add(itemRD1);
 
-            // Item RD2: Ask user for rating between 1 and 10
+            // Item RD2: Agent ask user for rating between 1 and 10 or 0 if user hasn't seen the movie
             OutputItem itemRD2 = new OutputItem("RD2", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
             itemRD2.OutputAction = new OutputAction(ratingDialogue.Context, "RD3");
             itemRD2.OutputAction.PatternList.Add(new Pattern("How would you rate" + " " + AgentConstants.QUERY_TAG_1 + " " + "from 1 to 10"));
             ratingDialogue.DialogueItemList.Add(itemRD2);
 
-            // Item RD3: Give rating
+            // Item RD3: User responds with a rating 
             InputItem itemRD3 = new InputItem("RD3", new List<string>() { AgentConstants.QUERY_TAG_2 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionRD3 = new InputAction(ratingDialogue.Context, "RD4");
@@ -332,12 +330,12 @@ namespace AgentApplication
             agent.DialogueList.Add(ratingDialogue);
         }
 
-        // Generate taste profile of a user
+        // Generate taste profile of a user --> specially necessary if the current user is a new user, else the movie recommendation can't be tailored to specific taste
         private void GenerateTasteProfilingDialogue() //TODO must ensure that currentUser is in <Q5>
         {
             Boolean isAlwaysAvailable = true;
-            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
-            int inputMaximumRepetitionCount = 10; // TODO maybe constant
+            double inputTimeoutInterval = double.MaxValue; 
+            int inputMaximumRepetitionCount = 10; // repeat 10 times or until no more unseen movies are left
 
             Dialogue tasteProfilingDialogue = new Dialogue("TasteProfilingDialogue", isAlwaysAvailable);
 
@@ -349,24 +347,24 @@ namespace AgentApplication
             itemTP1.InputActionList.Add(inputActionTP1);
             tasteProfilingDialogue.DialogueItemList.Add(itemTP1);
 
-            // Item TP2: Describe rating procedure
+            // Item TP2: Agent describes rating procedure
             OutputItem itemTP2 = new OutputItem("TP2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
             itemTP2.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP3");
             itemTP2.OutputAction.PatternList.Add(new Pattern("I say movie, you say rating"));
             tasteProfilingDialogue.DialogueItemList.Add(itemTP2);
 
-            // Item TP3: Get random unseen movie to rate
+            // Item TP3: Agent gets random unseen movie to rate
             TasteProfilingItem itemTP3 = new TasteProfilingItem("TP3", new List<string>() { AgentConstants.QUERY_TAG_5 }, 
                 inputMaximumRepetitionCount, AgentConstants.QUERY_TAG_1, tasteProfilingDialogue.Context, "TP4", tasteProfilingDialogue.Context, "TP7");
             tasteProfilingDialogue.DialogueItemList.Add(itemTP3);
 
-            // Item TP4: Ask user for rating between 1 and 10
+            // Item TP4: Ask user for rating between 1 and 10 or 0 if not seen
             OutputItem itemTP4 = new OutputItem("TP4", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 10);
             itemTP4.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP5");
             itemTP4.OutputAction.PatternList.Add(new Pattern("Rate" + " " + AgentConstants.QUERY_TAG_1));
             tasteProfilingDialogue.DialogueItemList.Add(itemTP4);
 
-            // Item TP5: Give rating
+            // Item TP5: User leaves a  rating
             InputItem itemTP5 = new InputItem("TP5", new List<string>() { AgentConstants.QUERY_TAG_2 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionTP5 = new InputAction(tasteProfilingDialogue.Context, "TP6");
@@ -388,12 +386,12 @@ namespace AgentApplication
             agent.DialogueList.Add(tasteProfilingDialogue);
         }
 
-        // Recommend unseen movie
+        // Recommend unseen movie tailored to specific taste of current user
         private void GenerateRecommendationDialogue() //TODO must ensure that currentUser is in <Q5>
         {
             Boolean isAlwaysAvailable = true;
-            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
-            int inputMaximumRepetitionCount = int.MaxValue; // TODO maybe constant
+            double inputTimeoutInterval = double.MaxValue; 
+            int inputMaximumRepetitionCount = int.MaxValue; 
 
             Dialogue recommendationDialogue = new Dialogue("RecommendationDialogue", isAlwaysAvailable);
 
@@ -405,7 +403,7 @@ namespace AgentApplication
             itemRC1.InputActionList.Add(inputActionRC1);
             recommendationDialogue.DialogueItemList.Add(itemRC1);
 
-            // Item RC2: Describe rating procedure
+            // Item RC2:
             OutputItem itemRC2 = new OutputItem("RC2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
             itemRC2.OutputAction = new OutputAction(recommendationDialogue.Context, "RC3");
             itemRC2.OutputAction.PatternList.Add(new Pattern("I will search for a suitable movie, just a moment"));
@@ -431,17 +429,17 @@ namespace AgentApplication
             agent.DialogueList.Add(recommendationDialogue);
         }
 
-        // Generate movie information dialogue
+        // This dialogue informs the user about any movie the user demands 
         private void GenerateMovieInformationDialogue()
         {
             Boolean isAlwaysAvailable = true;
-            double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
-            int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
+            double inputTimeoutInterval = double.MaxValue;
+            int inputMaximumRepetitionCount = int.MaxValue;
             double searchWaitingTime = 5.0;
 
             Dialogue movieInformationDialogue = new Dialogue("MovieInformationDialogue", isAlwaysAvailable);
 
-            // The user asks a question of the form "What is a <Q>"?
+            // Item MI1: The user asks the agent about a specifiy movie
             InputItem itemMI1 = new InputItem("MI1", new List<string>() { AgentConstants.QUERY_TAG_1 },
                                               inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionMI1 = new InputAction(movieInformationDialogue.Context, "MI2");
@@ -449,34 +447,34 @@ namespace AgentApplication
             itemMI1.InputActionList.Add(inputActionMI1);
             movieInformationDialogue.DialogueItemList.Add(itemMI1);
 
-            // The agent searches the existing movies in ultraManager
+            // Item MI2: The agent searches the existing movies in ultraManager
             MovieInformationItem itemMI2 = new MovieInformationItem("MI2", new List<string>() { AgentConstants.QUERY_TAG_1 },
                 "", "", movieInformationDialogue.Context, "MI3");
             movieInformationDialogue.DialogueItemList.Add(itemMI2);
 
-            // Run a search...
+            // Item MI3: If the movie is not yet in the database --> ultraManager, the agent will start a internet search
             OutputItem itemMI3 = new OutputItem("MI3", AgentConstants.INTERNET_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1}, false, 1);
             itemMI3.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI4");
-            itemMI3.OutputAction.PatternList.Add(new Pattern(/*"Imdb |"*/ "Imdb|" + " " + AgentConstants.QUERY_TAG_1));
+            itemMI3.OutputAction.PatternList.Add(new Pattern("Imdb|" + " " + AgentConstants.QUERY_TAG_1));
             movieInformationDialogue.DialogueItemList.Add(itemMI3);
 
-            // ...and await the results (and the search memory again)
+            // Item MI4: ...and await the results
             WaitItem itemMI4 = new WaitItem("MI4", searchWaitingTime);
             itemMI4.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI5");
             movieInformationDialogue.DialogueItemList.Add(itemMI4);
 
-            // The agent searches its long-term memory for (the description of) an object (tag = object) with the required name
+            // Item MI5: The agent searches its working memory for the requested movie which should have been inserted by the internet data aquisition
             MemorySearchItem itemMI5 = new MemorySearchItem("MI5", AgentConstants.WORKING_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_1 },
                 new List<string>() { "movie" }, TagSearchMode.Or, "title", "infoToProcess", AgentConstants.QUERY_TAG_2, movieInformationDialogue.Context, "MI6",
                 movieInformationDialogue.Context, "MI7");
             movieInformationDialogue.DialogueItemList.Add(itemMI5);
 
-            // Insert Movie from working-memory into ultraManager
+            // Item MI6: Insert Movie from working-memory into ultraManager
             UltraManagerInsertionItem itemMI6 = new UltraManagerInsertionItem("MI6",
                 new List<string>() {AgentConstants.QUERY_TAG_2}, movieInformationDialogue.Context, "MI2");
             movieInformationDialogue.DialogueItemList.Add(itemMI6);
 
-            // If the movie was not found in working memory --> internet data aquisition failed
+            // Item MI7: If the movie was not found in working memory --> internet data aquisition failed
             OutputItem itemMI7 = new OutputItem("MI7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 10);
             itemMI7.OutputAction = new OutputAction("", "");
             itemMI7.OutputAction.PatternList.Add(new Pattern("I am sorry but no information regarding " + " " + AgentConstants.QUERY_TAG_1 + " could be found"));
@@ -622,62 +620,6 @@ namespace AgentApplication
 
             agent.DialogueList.Add(whoIsDialogue);
         }
-
-        // Basic recommendation dialogue
-        // Test stage
-        //private void GenerateRecommendationDialogue()
-        //{
-        //    Boolean isAlwaysAvailable = true;
-        //    double inputTimeoutInterval = double.MaxValue; // No reason to have a timeout here, since the dialogue is _activated_ upon receiving matching input.
-        //    int inputMaximumRepetitionCount = int.MaxValue; // No reason to have a repetition count here, for the reason just mentioned.
-        //    double searchWaitingTime = 5.0;
-
-        //    Dialogue recommendDialogue = new Dialogue("RecommendDialogue", isAlwaysAvailable);
-
-        //    // The user asks to give a rating: "I like to rate <Q>"
-        //    InputItem itemWI1 = new InputItem("WI1", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2 },
-        //                                      inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-        //    InputAction inputActionWI1 = new InputAction(recommendDialogue.Context, "WI2");
-        //    inputActionWI1.PatternList.Add(new Pattern("Rate" + " " + AgentConstants.QUERY_TAG_1 + " " +
-        //        AgentConstants.QUERY_TAG_2));
-        //    itemWI1.InputActionList.Add(inputActionWI1);
-        //    recommendDialogue.DialogueItemList.Add(itemWI1);
-
-        //    // The agent searches its long-term memory for (the description of) an object (tag = object) with the required name
-        //    MemorySearchItem itemWI2 = new MemorySearchItem("WI2", AgentConstants.LONG_TERM_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_1,
-        //    AgentConstants.QUERY_TAG_2},
-        //        new List<string>() { "person" }, TagSearchMode.Or, "name", "description", AgentConstants.QUERY_TAG_3, recommendDialogue.Context, "WI7",
-        //        recommendDialogue.Context, "WI3");
-        //    recommendDialogue.DialogueItemList.Add(itemWI2);
-
-        //    // If the information cannot be found in long-term memory
-        //    OutputItem itemWI3 = new OutputItem("WI3", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
-        //    itemWI3.OutputAction = new OutputAction(recommendDialogue.Context, "WI4");
-        //    itemWI3.OutputAction.PatternList.Add(new Pattern("Just a moment, let me check"));
-        //    itemWI3.OutputAction.PatternList.Add(new Pattern("I don't know, but I will find out"));
-        //    recommendDialogue.DialogueItemList.Add(itemWI3);
-
-        //    // Run a search...
-        //    OutputItem itemWI4 = new OutputItem("WI4", AgentConstants.INTERNET_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1,
-        //    AgentConstants.QUERY_TAG_2}, false, 1);
-        //    itemWI4.OutputAction = new OutputAction(recommendDialogue.Context, "WI5");
-        //    itemWI4.OutputAction.PatternList.Add(new Pattern("Wiki|Person|" + " " + AgentConstants.QUERY_TAG_1 + " " +
-        //        AgentConstants.QUERY_TAG_2));
-        //    recommendDialogue.DialogueItemList.Add(itemWI4);
-
-        //    // ...and await the results (and the search memory again)
-        //    WaitItem itemWI5 = new WaitItem("WI5", searchWaitingTime);
-        //    itemWI5.OutputAction = new OutputAction(recommendDialogue.Context, "WI2");
-        //    recommendDialogue.DialogueItemList.Add(itemWI5);
-
-        //    // If the item IS found:
-        //    OutputItem itemWI7 = new OutputItem("WI7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_3 }, false, 1);
-        //    itemWI7.OutputAction = new OutputAction("", "");
-        //    itemWI7.OutputAction.PatternList.Add(new Pattern(AgentConstants.QUERY_TAG_3));
-        //    recommendDialogue.DialogueItemList.Add(itemWI7);
-
-        //    agent.DialogueList.Add(recommendDialogue);
-        //}
 
         // In this dialogue, the user asks for information regarding some object,
         // using a question of the form "What is a <Q>", where <Q> is the query term.

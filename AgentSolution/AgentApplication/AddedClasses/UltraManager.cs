@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 namespace AgentApplication.AddedClasses
 {
     [DataContract]
-    public sealed/* partial*/ class UltraManager
+    public sealed class UltraManager
     {
         private const string _userFilePath = "users";
         private const string _movieFilePath = "movies";
@@ -20,7 +20,6 @@ namespace AgentApplication.AddedClasses
 
         private static readonly Lazy<UltraManager> Lazy =
             new Lazy<UltraManager>(() => new UltraManager());
-
 
         public static UltraManager Instance { get { return Lazy.Value; } }
 

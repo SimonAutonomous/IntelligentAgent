@@ -57,10 +57,6 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
                 currentUser = (string)itemSought.GetContent();
             }
 
-            
-            // TODO
-            // If no currentUser in WorkingMemory --> set currentUser, else change currentUser
-
             // Check if user already exists
             Boolean existingUser = false;
             foreach (var user in _ultraManager.UserList)
@@ -73,10 +69,8 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
 
             if (existingUser)
             {
-                //TODO: trigger rating dialogue 
                 targetContext = existingUserTargetContext;
                 targetID = existingUserTargetID;
-                //greetingString = greetingString + "Welcome back " + currentUser;
             }
             else
             {
@@ -84,8 +78,6 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
                 _ultraManager.UserList.Add(user);
                 targetContext = newUserTargetContext;
                 targetID = newUserTargetID;
-                //greetingString = greetingString + "Hello " + currentUser + "    it seems you are new";
-
             }
             return true;
         }

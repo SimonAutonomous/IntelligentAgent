@@ -14,7 +14,6 @@ namespace AgentApplication.AddedClasses
 {
     class RecommendationItem : AsynchronousDialogueItem
     {
-        //private OutputAction outputAction = new OutputAction();
         private List<string> inputQueryTagList;
         private OutputAction outputAction;
         private readonly UltraManager _ultraManager = UltraManager.Instance;
@@ -51,11 +50,7 @@ namespace AgentApplication.AddedClasses
                 currentUser = (string)itemSought.GetContent();
             }
 
-            // Recommend!
-
-            // Get similarity of currentUser to all other users-------------------------------------------------
-
-            // create ratingTable
+            // create ratingTable --> matrix of all users and movies
             List<string> userList = new List<string> { };
             List<string> movieList = new List<string> { };
             userList.Add(currentUser);
@@ -107,8 +102,8 @@ namespace AgentApplication.AddedClasses
                 }
             }
 
-            // calculate Pearson correlation
-            List<double> simToUser = new List<double> { 0 }; // TODO: use dictionary
+            // calculate Pearson correlation between current user and all other users
+            List<double> simToUser = new List<double> { 0 }; 
             for (int i=1; i<nbrOfUsers; ++i)
             {
                 List<int> setRatedBoth = new List<int> { };
@@ -132,11 +127,11 @@ namespace AgentApplication.AddedClasses
                 simToUser.Add(sum1 / (Math.Sqrt(sum2 * sum3)));
             }
 
-            // Get most similar user
+            // Get most similar user to current user
             int mostSimilarUser = simToUser.IndexOf(simToUser.Max());
             Debug.WriteLine(userList[mostSimilarUser]);
 
-            // Return random unseen movie
+            // Return random unseen movie of all movies rated above 5 by most similar user
             List<string> unseenMovies = new List<string> { };
             for (int j = 0; j < nbrOfMovies; ++j)
             {
@@ -171,6 +166,12 @@ namespace AgentApplication.AddedClasses
             {
                 noMoreRecommendations = true;
             }
+            /*
+            if (noMoreRecommendations)
+            {
+                List<string> seenMoviesCurrentUser = new List<string> { };
+
+            }*/
 
             AsynchronousDialogueItemEventArgs e = new AsynchronousDialogueItemEventArgs(originalContext, outputAction.TargetContext, outputAction.TargetID);
             OnRunCompleted(e);
