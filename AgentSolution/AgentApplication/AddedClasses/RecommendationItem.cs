@@ -18,12 +18,12 @@ namespace AgentApplication.AddedClasses
         private OutputAction outputAction;
         private readonly UltraManager _ultraManager = UltraManager.Instance;
 
-        private string successTargetContext;
-        private string successTargetID;
-        private string failureTargetContext;
-        private string failureTargetID;
+        //private string successTargetContext;
+        //private string successTargetID;
+        //private string failureTargetContext;
+        //private string failureTargetID;
 
-        private int maximumRepetitionCount;
+        //private int maximumRepetitionCount;
         private string outputQueryTag;
 
         public RecommendationItem() { }
@@ -44,13 +44,14 @@ namespace AgentApplication.AddedClasses
         {
             string originalContext = ownerAgent.WorkingMemory.CurrentContext;
             string currentUser = "";
+            string recommendation = "";
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
             if (itemSought != null)  // 20171201
             {
                 currentUser = (string)itemSought.GetContent();
             }
 
-            // create ratingTable --> matrix of all users and movies
+            // 1) create ratingTable --> matrix of all users and movies
             List<string> userList = new List<string> { };
             List<string> movieList = new List<string> { };
             userList.Add(currentUser);
@@ -82,7 +83,7 @@ namespace AgentApplication.AddedClasses
                 ratingTable[userInsertionIndex, movieInsertionIndex] = rating.RatingValue;
             }
 
-            // calculate mean rating for each user
+            // 2) calculate mean rating for each user
             double[] meanRatings = new double[nbrOfUsers];
             for(int i=0; i<nbrOfUsers; ++i)
             {
@@ -102,7 +103,7 @@ namespace AgentApplication.AddedClasses
                 }
             }
 
-            // calculate Pearson correlation between current user and all other users
+            // 3) calculate Pearson correlation between current user and all other users
             List<double> simToUser = new List<double> { 0 }; 
             for (int i=1; i<nbrOfUsers; ++i)
             {
@@ -127,11 +128,11 @@ namespace AgentApplication.AddedClasses
                 simToUser.Add(sum1 / (Math.Sqrt(sum2 * sum3)));
             }
 
-            // Get most similar user to current user
+            // 4) Get most similar user to current user
             int mostSimilarUser = simToUser.IndexOf(simToUser.Max());
             Debug.WriteLine(userList[mostSimilarUser]);
 
-            // Return random unseen movie of all movies rated above 5 by most similar user
+            // 5) Return random unseen movie of all movies rated above 5 by most similar user
             List<string> unseenMovies = new List<string> { };
             for (int j = 0; j < nbrOfMovies; ++j)
             {
@@ -144,34 +145,65 @@ namespace AgentApplication.AddedClasses
             if (unseenMovies.Count > 0)
             {
                 int randomIndex = ownerAgent.RandomNumberGenerator.Next(0, unseenMovies.Count);
-                string recommendation = unseenMovies[randomIndex];
-
-                // set openRating so that agent asks user to rate the movie after he has seen it --> next time introductionDialogue is triggerd 
-                int listIndexOfCurrentUser = 0;
-                foreach (var user in _ultraManager.UserList)
-                {
-                    if (user.Name == currentUser)
-                    {
-                        listIndexOfCurrentUser = _ultraManager.UserList.IndexOf(user);
-                    }
-                }
-                _ultraManager.UserList[listIndexOfCurrentUser] = new User(_ultraManager.UserList[listIndexOfCurrentUser].Name, true, recommendation);
-
-                StringMemoryItem rateMemoryItem = new StringMemoryItem();
-                rateMemoryItem.TagList = new List<string>() { outputQueryTag };
-                rateMemoryItem.SetContent(recommendation);
-                ownerAgent.WorkingMemory.AddItem(rateMemoryItem);
+                recommendation = unseenMovies[randomIndex];
             }
             else
             {
                 noMoreRecommendations = true;
             }
-            /*
+            // END of algorithm
+            
+            // If no recommendation according to most similar user can be made --> recommend random movie instead
+            // This section is not part of the recommendation algorithm anymore -----------------------------------------------------------------------------------
             if (noMoreRecommendations)
             {
                 List<string> seenMoviesCurrentUser = new List<string> { };
+                List<string> unseenMoviesCurrentUser = new List<string> { };
+                foreach (var rating in _ultraManager.RatingList)
+                {
+                    if (rating.UserName == currentUser)
+                    {
+                        seenMoviesCurrentUser.Add(rating.MovieTitle);
+                    }
+                }
 
-            }*/
+                foreach (var movie in _ultraManager.MovieList)
+                {
+                    Boolean movieNotSeen = true;
+                    foreach (var movieTitle in seenMoviesCurrentUser)
+                    {
+                        if (movie.Title == movieTitle)
+                        {
+                            movieNotSeen = false;
+                        }
+                    }
+
+                    if (movieNotSeen)
+                    {
+                        unseenMoviesCurrentUser.Add(movie.Title);
+                    }
+                }
+                int randomIndex = ownerAgent.RandomNumberGenerator.Next(0, unseenMoviesCurrentUser.Count);
+                recommendation = unseenMoviesCurrentUser[randomIndex];
+            }
+            // ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+            // Set openRating so that agent asks user to rate the movie after he has seen it --> next time introductionDialogue is triggerd 
+            int listIndexOfCurrentUser = 0;
+            foreach (var user in _ultraManager.UserList)
+            {
+                if (user.Name == currentUser)
+                {
+                    listIndexOfCurrentUser = _ultraManager.UserList.IndexOf(user);
+                }
+            }
+            _ultraManager.UserList[listIndexOfCurrentUser] = new User(_ultraManager.UserList[listIndexOfCurrentUser].Name, true, recommendation);
+
+            // Return movie recommendation 
+            StringMemoryItem rateMemoryItem = new StringMemoryItem();
+            rateMemoryItem.TagList = new List<string>() { outputQueryTag };
+            rateMemoryItem.SetContent(recommendation);
+            ownerAgent.WorkingMemory.AddItem(rateMemoryItem);
 
             AsynchronousDialogueItemEventArgs e = new AsynchronousDialogueItemEventArgs(originalContext, outputAction.TargetContext, outputAction.TargetID);
             OnRunCompleted(e);
