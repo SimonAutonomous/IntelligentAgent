@@ -270,9 +270,8 @@ namespace InternetDataAcquisitionApplication
             }
             else if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
             {
-                var _ultraManager = UltraManager.Instance;
-                string txtMovieName = requestSplit[1].Replace(" ", "");
-                Debug.WriteLine(txtMovieName.Trim());
+                //var _ultraManager = UltraManager.Instance;
+                string txtMovieName = requestSplit[1].Replace(" ", "+");
                 string url = "http://www.omdbapi.com/?t=" + txtMovieName.Trim() + "&apikey=c983ca13";
                 using (WebClient wc = new WebClient())
                 {
@@ -301,7 +300,7 @@ namespace InternetDataAcquisitionApplication
                         message += "movie";
                         message += "}]";
                         message += "[title = " + newMovie.Title + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "infoToProcess = " + 
-                                   newMovie.Title + "," + newMovie.Year + "," + newMovie.ImdbRating + "," + newMovie.Genre + "]";
+                                   newMovie.Title + "/" + newMovie.Year + "/" + newMovie.ImdbRating + "/" + newMovie.Genre + "]";
                         //AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "imdbRating = " + newMovie.ImdbRating +
                         //AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "genre = " + newMovie.Genre + "]";
                         client.Send(message);

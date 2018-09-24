@@ -64,6 +64,7 @@
     <Compile Include="AddedClasses\UltraManager.cs" />
     <Compile Include="AddedClasses\UltraManagerInsertionItem.cs" />
     <Compile Include="AddedClasses\User.cs" />
+    <Compile Include="AddedClasses\UserCheckItem.cs" />
     <Compile Include="AddedClasses\UserIntroductionItem.cs" />
     <Compile Include="AgentMainForm.cs">
       <SubType>Form</SubType>

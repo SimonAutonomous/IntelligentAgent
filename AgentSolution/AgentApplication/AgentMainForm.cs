@@ -243,6 +243,7 @@ namespace AgentApplication
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionID1 = new InputAction(introductionDialogue.Context, "ID2");
             inputActionID1.PatternList.Add(new Pattern("My name is" + " " + AgentConstants.QUERY_TAG_5));
+            inputActionID1.PatternList.Add(new Pattern("I am" + " " + AgentConstants.QUERY_TAG_5));
             itemID1.InputActionList.Add(inputActionID1);
             introductionDialogue.DialogueItemList.Add(itemID1);
 
@@ -284,15 +285,22 @@ namespace AgentApplication
             introductionDialogue.DialogueItemList.Add(itemID7);
 
             // Item ID8: Insert rating into ultraManager ratingList
-            RatingItem itemID8 = new RatingItem("ID8", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 });
-            itemID8.OutputAction = new OutputAction("", "");
+            RatingItem itemID8 = new RatingItem("ID8", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 }, "", "", introductionDialogue.Context, "ID9");
             introductionDialogue.DialogueItemList.Add(itemID8);
+
+            // Item ID9: If rating given by user is not a valid rating
+            OutputItem itemID9 = new OutputItem("ID9", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 10);
+            itemID9.OutputAction = new OutputAction(introductionDialogue.Context, "ID7");
+            itemID9.OutputAction.PatternList.Add(new Pattern("The given rating is not valid"));
+            itemID9.OutputAction.PatternList.Add(new Pattern("Please try again"));
+            itemID9.OutputAction.PatternList.Add(new Pattern("The rating should be a number between 0 and 10"));
+            introductionDialogue.DialogueItemList.Add(itemID9);
 
             agent.DialogueList.Add(introductionDialogue);
         }
 
         // User wants to rate a movie
-        private void GenerateRatingDialogue() //TODO must ensure that currentUser is in <Q5>
+        private void GenerateRatingDialogue()
         {
             Boolean isAlwaysAvailable = true;
             double inputTimeoutInterval = double.MaxValue;
@@ -301,12 +309,16 @@ namespace AgentApplication
             Dialogue ratingDialogue = new Dialogue("RatingDialogue", isAlwaysAvailable);
 
             // Item RD1: User suggests to rate a movie
-            InputItem itemRD1 = new InputItem("RD1", new List<string>() { AgentConstants.QUERY_TAG_1 },
+            InputItem itemRD11 = new InputItem("RD11", new List<string>() { AgentConstants.QUERY_TAG_1 },
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionRD1 = new InputAction(ratingDialogue.Context, "RD2");
-            inputActionRD1.PatternList.Add(new Pattern("I would like to rate" + " " + AgentConstants.QUERY_TAG_1));
-            itemRD1.InputActionList.Add(inputActionRD1);
-            ratingDialogue.DialogueItemList.Add(itemRD1);
+            InputAction inputActionRD11 = new InputAction(ratingDialogue.Context, "RD12");
+            inputActionRD11.PatternList.Add(new Pattern("I would like to rate" + " " + AgentConstants.QUERY_TAG_1));
+            itemRD11.InputActionList.Add(inputActionRD11);
+            ratingDialogue.DialogueItemList.Add(itemRD11);
+
+            // Item RC12: Make sure that there is a current user --> introduction dialogue complete
+            UserCheckItem itemRD12 = new UserCheckItem("RD12", new List<string>() { AgentConstants.QUERY_TAG_5 }, ratingDialogue.Context, "RD2", "", "");
+            ratingDialogue.DialogueItemList.Add(itemRD12);
 
             // Item RD2: Agent ask user for rating between 1 and 10 or 0 if user hasn't seen the movie
             OutputItem itemRD2 = new OutputItem("RD2", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
@@ -323,15 +335,22 @@ namespace AgentApplication
             ratingDialogue.DialogueItemList.Add(itemRD3);
 
             // Item RD4: Insert rating into ultraManager ratingList
-            RatingItem itemRD4 = new RatingItem("RD4", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 });
-            itemRD4.OutputAction = new OutputAction( "" , "");
+            RatingItem itemRD4 = new RatingItem("RD4", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 }, "", "", ratingDialogue.Context, "RD5");
             ratingDialogue.DialogueItemList.Add(itemRD4);
+
+            // Item IRD5: If rating given by user is not a valid rating
+            OutputItem itemRD5 = new OutputItem("RD5", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 10);
+            itemRD5.OutputAction = new OutputAction(ratingDialogue.Context, "RD3");
+            itemRD5.OutputAction.PatternList.Add(new Pattern("The given rating is not valid"));
+            itemRD5.OutputAction.PatternList.Add(new Pattern("Please try again"));
+            itemRD5.OutputAction.PatternList.Add(new Pattern("The rating should be a number between 0 and 10"));
+            ratingDialogue.DialogueItemList.Add(itemRD5);
 
             agent.DialogueList.Add(ratingDialogue);
         }
 
         // Generate taste profile of a user --> specially necessary if the current user is a new user, else the movie recommendation can't be tailored to specific taste
-        private void GenerateTasteProfilingDialogue() //TODO must ensure that currentUser is in <Q5>
+        private void GenerateTasteProfilingDialogue()
         {
             Boolean isAlwaysAvailable = true;
             double inputTimeoutInterval = double.MaxValue; 
@@ -339,13 +358,17 @@ namespace AgentApplication
 
             Dialogue tasteProfilingDialogue = new Dialogue("TasteProfilingDialogue", isAlwaysAvailable);
 
-            // Item TP1: User suggests to make a taste profile
-            InputItem itemTP1 = new InputItem("TP1", null,
+            // Item TP11: User suggests to make a taste profile
+            InputItem itemTP11 = new InputItem("TP11", null,
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionTP1 = new InputAction(tasteProfilingDialogue.Context, "TP2");
-            inputActionTP1.PatternList.Add(new Pattern("Taste profiling"));
-            itemTP1.InputActionList.Add(inputActionTP1);
-            tasteProfilingDialogue.DialogueItemList.Add(itemTP1);
+            InputAction inputActionTP11 = new InputAction(tasteProfilingDialogue.Context, "TP12");
+            inputActionTP11.PatternList.Add(new Pattern("Taste profiling"));
+            itemTP11.InputActionList.Add(inputActionTP11);
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP11);
+
+            // Item TP12: Make sure that there is a current user --> introduction dialogue complete
+            UserCheckItem itemTP12 = new UserCheckItem("TP12", new List<string>() { AgentConstants.QUERY_TAG_5 }, tasteProfilingDialogue.Context, "TP2", "", "");
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP12);
 
             // Item TP2: Agent describes rating procedure
             OutputItem itemTP2 = new OutputItem("TP2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
@@ -355,7 +378,7 @@ namespace AgentApplication
 
             // Item TP3: Agent gets random unseen movie to rate
             TasteProfilingItem itemTP3 = new TasteProfilingItem("TP3", new List<string>() { AgentConstants.QUERY_TAG_5 }, 
-                inputMaximumRepetitionCount, AgentConstants.QUERY_TAG_1, tasteProfilingDialogue.Context, "TP4", tasteProfilingDialogue.Context, "TP7");
+                inputMaximumRepetitionCount, AgentConstants.QUERY_TAG_1, tasteProfilingDialogue.Context, "TP4", tasteProfilingDialogue.Context, "TP8");
             tasteProfilingDialogue.DialogueItemList.Add(itemTP3);
 
             // Item TP4: Ask user for rating between 1 and 10 or 0 if not seen
@@ -372,22 +395,29 @@ namespace AgentApplication
             itemTP5.InputActionList.Add(inputActionTP5);
             tasteProfilingDialogue.DialogueItemList.Add(itemTP5);
 
-            // Item TP6: Insert rating into ultraManager ratingList
-            RatingItem itemTP6 = new RatingItem("TP6", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 });
-            itemTP6.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP3"); // Get another rating
+            // Item RD4: Insert rating into ultraManager ratingList
+            RatingItem itemTP6 = new RatingItem("TP6", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_5 }, tasteProfilingDialogue.Context, "TP3", tasteProfilingDialogue.Context, "TP7");
             tasteProfilingDialogue.DialogueItemList.Add(itemTP6);
 
-            // Item TP7: Successfuly completed taste profiling
-            OutputItem itemTP7 = new OutputItem("TP7", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
-            itemTP7.OutputAction = new OutputAction("", "");
-            itemTP7.OutputAction.PatternList.Add(new Pattern("You have successfuly completed your taste profile"));
+            // Item IRD5: If rating given by user is not a valid rating
+            OutputItem itemTP7 = new OutputItem("TP7", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 30);
+            itemTP7.OutputAction = new OutputAction(tasteProfilingDialogue.Context, "TP5");
+            itemTP7.OutputAction.PatternList.Add(new Pattern("The given rating is not valid"));
+            itemTP7.OutputAction.PatternList.Add(new Pattern("Please try again"));
+            itemTP7.OutputAction.PatternList.Add(new Pattern("The rating should be a number between 0 and 10"));
             tasteProfilingDialogue.DialogueItemList.Add(itemTP7);
+
+            // Item TP7: Successfuly completed taste profiling
+            OutputItem itemTP8 = new OutputItem("TP8", AgentConstants.SPEECH_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1 }, false, 1);
+            itemTP8.OutputAction = new OutputAction("", "");
+            itemTP8.OutputAction.PatternList.Add(new Pattern("You have successfuly completed your taste profile"));
+            tasteProfilingDialogue.DialogueItemList.Add(itemTP8);
 
             agent.DialogueList.Add(tasteProfilingDialogue);
         }
 
         // Recommend unseen movie tailored to specific taste of current user
-        private void GenerateRecommendationDialogue() //TODO must ensure that currentUser is in <Q5>
+        private void GenerateRecommendationDialogue()
         {
             Boolean isAlwaysAvailable = true;
             double inputTimeoutInterval = double.MaxValue; 
@@ -395,13 +425,17 @@ namespace AgentApplication
 
             Dialogue recommendationDialogue = new Dialogue("RecommendationDialogue", isAlwaysAvailable);
 
-            // Item RC1: User demands a recommendation
-            InputItem itemRC1 = new InputItem("RC1", null,
+            // Item RC11: User demands a recommendation
+            InputItem itemRC11 = new InputItem("RC11", null,
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
-            InputAction inputActionRC1 = new InputAction(recommendationDialogue.Context, "RC2");
-            inputActionRC1.PatternList.Add(new Pattern("Recommend me a movie"));
-            itemRC1.InputActionList.Add(inputActionRC1);
-            recommendationDialogue.DialogueItemList.Add(itemRC1);
+            InputAction inputActionRC11 = new InputAction(recommendationDialogue.Context, "RC12");
+            inputActionRC11.PatternList.Add(new Pattern("Recommend me a movie"));
+            itemRC11.InputActionList.Add(inputActionRC11);
+            recommendationDialogue.DialogueItemList.Add(itemRC11);
+
+            // Item RC12: Make sure that there is a current user --> introduction dialogue complete
+            UserCheckItem itemRC12 = new UserCheckItem("RC12", new List<string>() { AgentConstants.QUERY_TAG_5 }, recommendationDialogue.Context, "RC2", "", "");
+            recommendationDialogue.DialogueItemList.Add(itemRC12);
 
             // Item RC2:
             OutputItem itemRC2 = new OutputItem("RC2", AgentConstants.SPEECH_OUTPUT_TAG, null, false, 1);
@@ -420,12 +454,6 @@ namespace AgentApplication
             itemRC4.OutputAction.PatternList.Add(new Pattern("How about" + " " + AgentConstants.QUERY_TAG_1));
             recommendationDialogue.DialogueItemList.Add(itemRC4);
 
-            // TODO: yes/no 
-
-            // TODO: if yes --> openRaing = true
-
-            // TODO: if no --> recommend other movie
-
             agent.DialogueList.Add(recommendationDialogue);
         }
 
@@ -440,22 +468,24 @@ namespace AgentApplication
             Dialogue movieInformationDialogue = new Dialogue("MovieInformationDialogue", isAlwaysAvailable);
 
             // Item MI1: The user asks the agent about a specifiy movie
-            InputItem itemMI1 = new InputItem("MI1", new List<string>() { AgentConstants.QUERY_TAG_1 },
-                                              inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
+            InputItem itemMI1 = new InputItem("MI1", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_3 },
+                inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionMI1 = new InputAction(movieInformationDialogue.Context, "MI2");
             inputActionMI1.PatternList.Add(new Pattern("Tell me about" + " " + AgentConstants.QUERY_TAG_1));
+            inputActionMI1.PatternList.Add(new Pattern("Tell me about" + " " + AgentConstants.QUERY_TAG_1 + " " + AgentConstants.QUERY_TAG_2));
+            inputActionMI1.PatternList.Add(new Pattern("Tell me about" + " " + AgentConstants.QUERY_TAG_1 + " " + AgentConstants.QUERY_TAG_2 + " " + AgentConstants.QUERY_TAG_3));
             itemMI1.InputActionList.Add(inputActionMI1);
             movieInformationDialogue.DialogueItemList.Add(itemMI1);
 
             // Item MI2: The agent searches the existing movies in ultraManager
-            MovieInformationItem itemMI2 = new MovieInformationItem("MI2", new List<string>() { AgentConstants.QUERY_TAG_1 },
-                "", "", movieInformationDialogue.Context, "MI3");
+            MovieInformationItem itemMI2 = new MovieInformationItem("MI2", new List<string>() { AgentConstants.QUERY_TAG_1, AgentConstants.QUERY_TAG_2, AgentConstants.QUERY_TAG_3 },
+                AgentConstants.QUERY_TAG_4, "", "", movieInformationDialogue.Context, "MI3");
             movieInformationDialogue.DialogueItemList.Add(itemMI2);
 
             // Item MI3: If the movie is not yet in the database --> ultraManager, the agent will start a internet search
-            OutputItem itemMI3 = new OutputItem("MI3", AgentConstants.INTERNET_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_1}, false, 1);
+            OutputItem itemMI3 = new OutputItem("MI3", AgentConstants.INTERNET_OUTPUT_TAG, new List<string>() { AgentConstants.QUERY_TAG_4 }, false, 1);
             itemMI3.OutputAction = new OutputAction(movieInformationDialogue.Context, "MI4");
-            itemMI3.OutputAction.PatternList.Add(new Pattern("Imdb|" + " " + AgentConstants.QUERY_TAG_1));
+            itemMI3.OutputAction.PatternList.Add(new Pattern("Imdb|" + " " + AgentConstants.QUERY_TAG_4));
             movieInformationDialogue.DialogueItemList.Add(itemMI3);
 
             // Item MI4: ...and await the results
@@ -464,14 +494,14 @@ namespace AgentApplication
             movieInformationDialogue.DialogueItemList.Add(itemMI4);
 
             // Item MI5: The agent searches its working memory for the requested movie which should have been inserted by the internet data aquisition
-            MemorySearchItem itemMI5 = new MemorySearchItem("MI5", AgentConstants.WORKING_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_1 },
+            MemorySearchItem itemMI5 = new MemorySearchItem("MI5", AgentConstants.WORKING_MEMORY_NAME, new List<string>() { AgentConstants.QUERY_TAG_4 },
                 new List<string>() { "movie" }, TagSearchMode.Or, "title", "infoToProcess", AgentConstants.QUERY_TAG_2, movieInformationDialogue.Context, "MI6",
                 movieInformationDialogue.Context, "MI7");
             movieInformationDialogue.DialogueItemList.Add(itemMI5);
 
             // Item MI6: Insert Movie from working-memory into ultraManager
             UltraManagerInsertionItem itemMI6 = new UltraManagerInsertionItem("MI6",
-                new List<string>() {AgentConstants.QUERY_TAG_2}, movieInformationDialogue.Context, "MI2");
+                new List<string>() {AgentConstants.QUERY_TAG_2}, AgentConstants.QUERY_TAG_1, movieInformationDialogue.Context, "MI2");
             movieInformationDialogue.DialogueItemList.Add(itemMI6);
 
             // Item MI7: If the movie was not found in working memory --> internet data aquisition failed
@@ -482,7 +512,6 @@ namespace AgentApplication
 
             agent.DialogueList.Add(movieInformationDialogue);
         }
-
 
         #endregion
 

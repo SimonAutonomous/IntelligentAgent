@@ -46,7 +46,7 @@ namespace AgentApplication.AddedClasses
             string currentUser = "";
             string recommendation = "";
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
-            if (itemSought != null)  // 20171201
+            if (itemSought != null)
             {
                 currentUser = (string)itemSought.GetContent();
             }
@@ -132,11 +132,19 @@ namespace AgentApplication.AddedClasses
             int mostSimilarUser = simToUser.IndexOf(simToUser.Max());
             Debug.WriteLine(userList[mostSimilarUser]);
 
-            // 5) Return random unseen movie of all movies rated above 5 by most similar user
+            // 5) Return random unseen movie of all movies rated above 5 by most similar user and not recommended before
             List<string> unseenMovies = new List<string> { };
             for (int j = 0; j < nbrOfMovies; ++j)
             {
-                if (ratingTable[0, j] == 0 && ratingTable[mostSimilarUser, j] > 5)
+                Boolean movieNotRecommendedBefore = true;
+                foreach (var rating in _ultraManager.RecommendationBlacklist) // also check if recommendation has been made previously
+                {
+                    if (movieList[j] == rating.MovieTitle && currentUser == rating.UserName)
+                    {
+                        movieNotRecommendedBefore = false;
+                    }
+                }
+                if (ratingTable[0, j] == 0 && ratingTable[mostSimilarUser, j] > 5 && movieNotRecommendedBefore)
                 {
                     unseenMovies.Add(movieList[j]);
                 }
@@ -177,27 +185,50 @@ namespace AgentApplication.AddedClasses
                             movieNotSeen = false;
                         }
                     }
+                    foreach (var rating in _ultraManager.RecommendationBlacklist) // also check if recommendation has been made previously
+                    {
+                        if (movie.Title == rating.MovieTitle && currentUser == rating.UserName)
+                        {
+                            movieNotSeen = false;
+                        }
+                    }
 
                     if (movieNotSeen)
                     {
                         unseenMoviesCurrentUser.Add(movie.Title);
                     }
                 }
-                int randomIndex = ownerAgent.RandomNumberGenerator.Next(0, unseenMoviesCurrentUser.Count);
-                recommendation = unseenMoviesCurrentUser[randomIndex];
+
+                if (unseenMoviesCurrentUser.Count > 0)
+                {
+                    int randomIndex = ownerAgent.RandomNumberGenerator.Next(0, unseenMoviesCurrentUser.Count);
+                    recommendation = unseenMoviesCurrentUser[randomIndex];
+                }
+                else
+                {
+                    recommendation = "no"; // All movies in _ultraManager have been seen by the current user 
+                }
+
             }
             // ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-            // Set openRating so that agent asks user to rate the movie after he has seen it --> next time introductionDialogue is triggerd 
-            int listIndexOfCurrentUser = 0;
-            foreach (var user in _ultraManager.UserList)
+            if (recommendation != "no")
             {
-                if (user.Name == currentUser)
+                // Set openRating so that agent asks user to rate the movie after he has seen it --> next time introductionDialogue is triggerd 
+                int listIndexOfCurrentUser = 0;
+                foreach (var user in _ultraManager.UserList)
                 {
-                    listIndexOfCurrentUser = _ultraManager.UserList.IndexOf(user);
+                    if (user.Name == currentUser)
+                    {
+                        listIndexOfCurrentUser = _ultraManager.UserList.IndexOf(user);
+                    }
                 }
+                _ultraManager.UserList[listIndexOfCurrentUser] = new User(_ultraManager.UserList[listIndexOfCurrentUser].Name, true, recommendation);
+
+                // Add recommendation to blacklist
+                var blacklistRecommendation = new Rating(recommendation, currentUser, 0);
+                _ultraManager.RecommendationBlacklist.Add(blacklistRecommendation);
             }
-            _ultraManager.UserList[listIndexOfCurrentUser] = new User(_ultraManager.UserList[listIndexOfCurrentUser].Name, true, recommendation);
 
             // Return movie recommendation 
             StringMemoryItem rateMemoryItem = new StringMemoryItem();

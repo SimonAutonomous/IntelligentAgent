@@ -18,6 +18,9 @@ namespace AgentApplication.AddedClasses
         private const string _movieFilePath = "movies";
         private const string _ratingFilePath = "ratings";
 
+        public List<Rating> TasteProfilingBlacklist;
+        public List<Rating> RecommendationBlacklist;
+
         private static readonly Lazy<UltraManager> Lazy =
             new Lazy<UltraManager>(() => new UltraManager());
 
@@ -28,9 +31,18 @@ namespace AgentApplication.AddedClasses
             this.MovieList = new ObservableCollection<Movie>();
             this.UserList = new ObservableCollection<User>();
             this.RatingList = new ObservableCollection<Rating>();
+            this.TasteProfilingBlacklist = new List<Rating>();
+            this.RecommendationBlacklist = new List<Rating>();
             PopulateListsFromSavedData();
             AddEvents();
         }
+
+        //public void resetBlacklists()
+        //{
+        //    TasteProfilingBlacklist = new List<Rating>();
+        //    RecommendationBlacklist = new List<Rating>();
+        //}
+
 
         private void AddEvents()
         {

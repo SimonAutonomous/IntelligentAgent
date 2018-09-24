@@ -55,7 +55,6 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
         {
             base.Run(parameterList, out targetContext, out targetID);
 
-
             string currentUser = "";
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
             if (itemSought != null)  // 20171201
@@ -69,6 +68,13 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
                 Boolean addItem = true;
                 //movie.Title ==
                 foreach (var rating in _ultraManager.RatingList)
+                {
+                    if (rating.UserName == currentUser && rating.MovieTitle == movie.Title)
+                    {
+                        addItem = false;
+                    }
+                }
+                foreach (var rating in _ultraManager.TasteProfilingBlacklist)
                 {
                     if (rating.UserName == currentUser && rating.MovieTitle == movie.Title)
                     {

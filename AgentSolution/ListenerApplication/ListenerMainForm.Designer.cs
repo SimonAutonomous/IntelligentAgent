@@ -457,7 +457,20 @@
             "end",
             "what time is it",
             "what is your name",
-            "Hazel"});
+            "Hazel",
+            "my name is simon",
+            "i am simon",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
             this.grammarPhraseListBox.Location = new System.Drawing.Point(0, 25);
             this.grammarPhraseListBox.Name = "grammarPhraseListBox";
             this.grammarPhraseListBox.Size = new System.Drawing.Size(644, 380);
