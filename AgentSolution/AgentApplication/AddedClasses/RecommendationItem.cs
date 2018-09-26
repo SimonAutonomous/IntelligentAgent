@@ -247,6 +247,7 @@ namespace AgentApplication.AddedClasses
             set { outputAction = value; }
         }
 
+        [DataMember]
         public List<string> InputQueryTagList
         {
             get { return inputQueryTagList; }

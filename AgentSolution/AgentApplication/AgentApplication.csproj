@@ -56,6 +56,7 @@
     <Compile Include="AddedClasses\DataTypeSelector.cs" />
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\MovieInformationItem.cs" />
+    <Compile Include="AddedClasses\MovieInputItem.cs" />
     <Compile Include="AddedClasses\OpenRatingItem.cs" />
     <Compile Include="AddedClasses\Rating.cs" />
     <Compile Include="AddedClasses\RatingItem.cs" />
