@@ -55,18 +55,18 @@
   <ItemGroup>
     <Compile Include="AddedClasses\DataTypeSelector.cs" />
     <Compile Include="AddedClasses\Movie.cs" />
-    <Compile Include="AddedClasses\MovieInformationItem.cs" />
-    <Compile Include="AddedClasses\MovieInputItem.cs" />
-    <Compile Include="AddedClasses\OpenRatingItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\MovieInformationItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\MovieInputItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\OpenRatingItem.cs" />
     <Compile Include="AddedClasses\Rating.cs" />
-    <Compile Include="AddedClasses\RatingItem.cs" />
-    <Compile Include="AddedClasses\RecommendationItem.cs" />
-    <Compile Include="AddedClasses\TasteProfilingItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\RatingItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\RecommendationItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\TasteProfilingItem.cs" />
     <Compile Include="AddedClasses\UltraManager.cs" />
-    <Compile Include="AddedClasses\UltraManagerInsertionItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\UltraManagerInsertionItem.cs" />
     <Compile Include="AddedClasses\User.cs" />
-    <Compile Include="AddedClasses\UserCheckItem.cs" />
-    <Compile Include="AddedClasses\UserIntroductionItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\UserCheckItem.cs" />
+    <Compile Include="AddedClasses\DialogueItems\UserIntroductionItem.cs" />
     <Compile Include="AgentMainForm.cs">
       <SubType>Form</SubType>
     </Compile>

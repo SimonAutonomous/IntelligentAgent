@@ -37,13 +37,6 @@ namespace AgentApplication.AddedClasses
             AddEvents();
         }
 
-        //public void resetBlacklists()
-        //{
-        //    TasteProfilingBlacklist = new List<Rating>();
-        //    RecommendationBlacklist = new List<Rating>();
-        //}
-
-
         private void AddEvents()
         {
             MovieList.CollectionChanged += (sender, e) =>
