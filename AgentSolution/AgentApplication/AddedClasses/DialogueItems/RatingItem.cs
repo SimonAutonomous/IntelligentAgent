@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AgentLibrary.Memories;
 using AgentLibrary.DialogueItems;
-using AgentLibrary;
+using AgentLibrary.Memories;
 
-namespace AgentApplication.AddedClasses
+namespace AgentApplication.AddedClasses.DialogueItems
 {
     [DataContract]
     public class RatingItem : DialogueItem
@@ -36,16 +31,6 @@ namespace AgentApplication.AddedClasses
             this.failureTargetID = failureTargetID;
         }
 
-        //public override void Initialize(Agent ownerAgent)
-        //{
-        //    base.Initialize(ownerAgent);
-        //    foreach (Pattern pattern in outputAction.PatternList)
-        //    {
-        //        pattern.ProcessDefinition();
-        //        //     pattern.ProcessDefinitionList();
-        //    }
-        //}
-
         public override Boolean Run(List<object> parameterList, out string targetContext, out string targetID)
         {
             base.Run(parameterList, out targetContext, out targetID);
@@ -56,7 +41,6 @@ namespace AgentApplication.AddedClasses
             double movieRating = -1.0;
             Boolean successfulConversion = false;
 
-            //TODO: get all in one call
             MemoryItem itemSought1 = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
             if (itemSought1 != null) 
             {
@@ -68,7 +52,7 @@ namespace AgentApplication.AddedClasses
             {
                 movieRatingString = (string)itemSought2.GetContent();
             }
-            //double movieRating = Convert.ToDouble(movieRatingString);  //TODO: exception
+
             try
             {
                 movieRating = Convert.ToDouble(movieRatingString);
@@ -161,12 +145,5 @@ namespace AgentApplication.AddedClasses
             get { return failureTargetID; }
             set { failureTargetID = value; }
         }
-
-        //[DataMember]
-        //public OutputAction OutputAction
-        //{
-        //    get { return outputAction; }
-        //    set { outputAction = value; }
-        //}
     }
 }

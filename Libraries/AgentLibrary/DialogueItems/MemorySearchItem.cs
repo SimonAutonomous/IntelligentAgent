@@ -119,8 +119,8 @@ namespace AgentLibrary.DialogueItems
             }
             if (labelFound)
             {
-                targetContext = successTargetContext;  // ToDo - uncomment and use!
-                targetID = successTargetID; // ToDo - uncomment and use!
+                targetContext = successTargetContext;  
+                targetID = successTargetID; 
             }
             else
             {

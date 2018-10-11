@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AgentLibrary.Memories;
 using AgentLibrary.DialogueItems;
-using AgentLibrary;
+using AgentLibrary.Memories;
 
-namespace AgentApplication.AddedClasses //TODO: right namespace?
+namespace AgentApplication.AddedClasses.DialogueItems 
 {
     [DataContract]
     public class TasteProfilingItem : DialogueItem
     {
-        //private OutputAction outputAction = new OutputAction();
         private List<string> inputQueryTagList;
         private readonly UltraManager _ultraManager = UltraManager.Instance;
 
@@ -41,23 +35,13 @@ namespace AgentApplication.AddedClasses //TODO: right namespace?
             this.outputQueryTag = outputQueryTag;
         }
 
-        /* public override void Initialize(Agent ownerAgent) // TODO use pattern list
-         {
-             base.Initialize(ownerAgent);
-             //foreach (Pattern pattern in outputAction.PatternList)
-             //{
-             //    pattern.ProcessDefinition();
-             //    //     pattern.ProcessDefinitionList();
-             //}
-         }*/
-
         public override Boolean Run(List<object> parameterList, out string targetContext, out string targetID)
         {
             base.Run(parameterList, out targetContext, out targetID);
 
             string currentUser = "";
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
-            if (itemSought != null)  // 20171201
+            if (itemSought != null)
             {
                 currentUser = (string)itemSought.GetContent();
             }

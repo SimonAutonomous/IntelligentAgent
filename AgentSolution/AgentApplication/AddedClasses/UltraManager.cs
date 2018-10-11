@@ -111,7 +111,7 @@ namespace AgentApplication.AddedClasses
                     return listToLoad;
                 }
             }
-            return new T(); // TODO: return default lists --> program
+            return new T();
         }
     }
 

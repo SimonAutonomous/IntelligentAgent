@@ -526,10 +526,6 @@ namespace AgentLibrary
                     workingMemory.CurrentID = targetID;
                 }
             }
-
-            // MW ToDo: Old, remove
-          //  if (targetContext != workingMemory.CurrentContext) { workingMemory.CurrentContext = targetContext; } // Triggers the ContextChangedEvent in working memory
-          //  else { workingMemory.CurrentID = targetID; } // Triggers the IDChangedEvent in working memory
         }
 
         private void HandleCurrentContextChanged(object sender, EventArgs e)

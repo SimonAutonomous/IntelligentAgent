@@ -95,8 +95,30 @@ namespace FaceApplication
             string faceAction = e.DataPacket.Message;
             if (faceAction.ToLower() == "openeyes") { OpenEyes(); }
 
-            // ToDO: Add more actions here
-
+            // Additional actions
+            else if (faceAction.ToLower().Contains("currentuser"))
+            {
+                List<string> currentUserList = faceAction.Split('|').ToList<string>();
+                currentUserTxt.Text = currentUserList[1];
+            }
+            else if (faceAction.ToLower().Contains("movieinformation"))
+            {
+                List<string> movieInformationList = faceAction.Split('|').ToList<string>();
+                string information = movieInformationList[1];
+                List<string> informationList = information.Split('/').ToList<string>();
+                titleTxt.Text = informationList[0];
+                yearTxt.Text = informationList[1];
+                imdbRatingTxt.Text = informationList[2];
+                genreTxt.Text = informationList[3];
+            }
+            else if (faceAction.ToLower().Contains("recommendation"))
+            {
+                List<string> movieRecommendationList = faceAction.Split('|').ToList<string>();
+                string movieRecommendation = movieRecommendationList[1];
+                List<string> movieMostSimUser = movieRecommendation.Split('/').ToList<string>();
+                movieTxt.Text = movieMostSimUser[0];
+                mostSimUserTxt.Text = movieMostSimUser[1];
+            }
         }
 
         private void HandleClientProgress(object sender, CommunicationProgressEventArgs e)
@@ -477,6 +499,46 @@ namespace FaceApplication
                 normalThread.Abort();
             }
             Application.Exit();
+        }
+
+        private void viewer3D_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void faceMovieSplitContainer(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void currentUserTxt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FaceApplicationMainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

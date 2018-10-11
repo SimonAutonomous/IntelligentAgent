@@ -43,8 +43,6 @@ namespace InternetDataAcquisitionApplication
         private List<RSSDownloader> rssDownloaderList = null;
         private List<InternetItem> itemList = null;
 
-        //private readonly UltraManager _ultraManager = UltraManager.Instance;
-
         public InternetDataAcquisitionMainForm()
         {
             InitializeComponent();
@@ -285,31 +283,19 @@ namespace InternetDataAcquisitionApplication
                         double imdbRating = Convert.ToDouble(obj.imdbRating);
                         int year = Convert.ToInt16(obj.Year);
                         string genre = obj.Genre;
-
                         Movie newMovie = new Movie(movieTitle, year, imdbRating, genre);
-                        //Debug.WriteLine(newMovie.Title);
-                        //Debug.WriteLine(newMovie.Year);
-                        //Debug.WriteLine(newMovie.ImdbRating);
-                        //Debug.WriteLine(newMovie.Genre);
-                        //_ultraManager.MovieList.Add(newMovie);
-
-                        //TODO: send to working memory
-
                         string message = "[" + AgentConstants.WORKING_MEMORY_NAME + "]";
                         message += "[{";
                         message += "movie";
                         message += "}]";
                         message += "[title = " + newMovie.Title + AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "infoToProcess = " + 
                                    newMovie.Title + "/" + newMovie.Year + "/" + newMovie.ImdbRating + "/" + newMovie.Genre + "]";
-                        //AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "imdbRating = " + newMovie.ImdbRating +
-                        //AgentConstants.MEMORY_ITEM_SEPARATION_CHARACTER + "genre = " + newMovie.Genre + "]";
                         client.Send(message);
                         ThreadSafeShowSearchResult(message);
                     }
                     else
                     {
                         return false;
-                        //Debug.WriteLine("not found");
                     }
                 }
             }

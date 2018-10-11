@@ -65,6 +65,7 @@ namespace SpeechApplication
             // Default location for the window
             Size screenSize = Screen.GetBounds(this).Size;
             this.Location = new Point(screenSize.Width - this.Width, screenSize.Height - this.Height);
+            this.WindowState = FormWindowState.Minimized;
             mainTabControl.SelectedTab = speechTabPage;
         }
 

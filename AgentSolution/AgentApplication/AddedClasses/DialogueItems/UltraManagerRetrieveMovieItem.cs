@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using AgentLibrary.DialogueItems;
 using AgentLibrary.Memories;
 
 namespace AgentApplication.AddedClasses.DialogueItems
 {
     [DataContract]
-    public class UltraManagerInsertionItem : DialogueItem
+    public class UltraManagerRetrieveMovieItem : DialogueItem
     {
         private List<string> inputQueryTagList;
         private readonly UltraManager _ultraManager = UltraManager.Instance;
@@ -17,9 +19,9 @@ namespace AgentApplication.AddedClasses.DialogueItems
         private string targetID;
         private string outputQueryTag;
 
-        public UltraManagerInsertionItem() { }
+        public UltraManagerRetrieveMovieItem() { }
 
-        public UltraManagerInsertionItem(string id, List<string> inputQueryTagList, string outputQueryTag, string targetContext, string targetID)
+        public UltraManagerRetrieveMovieItem(string id, List<string> inputQueryTagList, string outputQueryTag, string targetContext, string targetID)
         {
             this.id = id;
             this.inputQueryTagList = inputQueryTagList;
@@ -32,20 +34,26 @@ namespace AgentApplication.AddedClasses.DialogueItems
         {
             base.Run(parameterList, out targetContext, out targetID);
 
+            string movieTitle = "";
             string movieInformation = "";
+
             MemoryItem itemSought = ownerAgent.WorkingMemory.GetLastItemByTag(inputQueryTagList[0]);
             if (itemSought != null)
             {
-                movieInformation = (string)itemSought.GetContent();
+                movieTitle = (string)itemSought.GetContent();
             }
 
-            List<string> movieInformationList = movieInformation.Split('/').ToList<string>();
-            Movie movieToAdd = new Movie(movieInformationList[0], Convert.ToInt32(movieInformationList[1]), Convert.ToDouble(movieInformationList[2]), movieInformationList[3]);
-            _ultraManager.MovieList.Add(movieToAdd);
+            foreach (var movie in _ultraManager.MovieList)
+            {
+                if (movie.Title.ToLower() == movieTitle.ToLower())
+                {
+                    movieInformation = movie.Title + "/" + movie.Year + "/" + movie.ImdbRating + "/" + movie.Genre;
+                }
+            }
 
             StringMemoryItem movieTitleMemoryItem = new StringMemoryItem();
             movieTitleMemoryItem.TagList = new List<string>() { outputQueryTag };
-            movieTitleMemoryItem.SetContent(movieToAdd.Title);
+            movieTitleMemoryItem.SetContent(movieInformation);
             ownerAgent.WorkingMemory.AddItem(movieTitleMemoryItem);
 
             targetContext = this.targetContext;
@@ -62,4 +70,3 @@ namespace AgentApplication.AddedClasses.DialogueItems
         }
     }
 }
-

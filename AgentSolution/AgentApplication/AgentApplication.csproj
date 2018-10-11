@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddedClasses\DataTypeSelector.cs" />
+    <Compile Include="AddedClasses\DialogueItems\UltraManagerRetrieveMovieItem.cs" />
     <Compile Include="AddedClasses\Movie.cs" />
     <Compile Include="AddedClasses\DialogueItems\MovieInformationItem.cs" />
     <Compile Include="AddedClasses\DialogueItems\MovieInputItem.cs" />

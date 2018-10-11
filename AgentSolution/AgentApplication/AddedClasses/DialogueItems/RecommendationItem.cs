@@ -1,38 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AgentLibrary.Memories;
-using AgentLibrary.DialogueItems;
 using AgentLibrary;
-using System.Diagnostics;
+using AgentLibrary.DialogueItems;
+using AgentLibrary.Memories;
 
-namespace AgentApplication.AddedClasses
+namespace AgentApplication.AddedClasses.DialogueItems
 {
     class RecommendationItem : AsynchronousDialogueItem
     {
         private List<string> inputQueryTagList;
         private OutputAction outputAction;
         private readonly UltraManager _ultraManager = UltraManager.Instance;
-
-        //private string successTargetContext;
-        //private string successTargetID;
-        //private string failureTargetContext;
-        //private string failureTargetID;
-
-        //private int maximumRepetitionCount;
-        private string outputQueryTag;
+        private string outputQueryTagMovie;
+        private string outputQueryTagSimUser;
 
         public RecommendationItem() { }
 
-        public RecommendationItem(string id, List<string> inputQueryTagList, string outputQueryTag)
+        public RecommendationItem(string id, List<string> inputQueryTagList, string outputQueryTagMovie, string outputQueryTagSimUser)
         {
             this.id = id;
             this.inputQueryTagList = inputQueryTagList;
-            this.outputQueryTag = outputQueryTag;
+            this.outputQueryTagMovie = outputQueryTagMovie;
+            this.outputQueryTagSimUser = outputQueryTagSimUser;
         }
 
         public override void Initialize(Agent ownerAgent)
@@ -130,7 +122,7 @@ namespace AgentApplication.AddedClasses
 
             // 4) Get most similar user to current user
             int mostSimilarUser = simToUser.IndexOf(simToUser.Max());
-            Debug.WriteLine(userList[mostSimilarUser]);
+            string simUser = userList[mostSimilarUser];
 
             // 5) Return random unseen movie of all movies rated above 5 by most similar user and not recommended before
             List<string> unseenMovies = new List<string> { };
@@ -231,10 +223,16 @@ namespace AgentApplication.AddedClasses
             }
 
             // Return movie recommendation 
-            StringMemoryItem rateMemoryItem = new StringMemoryItem();
-            rateMemoryItem.TagList = new List<string>() { outputQueryTag };
-            rateMemoryItem.SetContent(recommendation);
-            ownerAgent.WorkingMemory.AddItem(rateMemoryItem);
+            StringMemoryItem recommendationMemoryItem = new StringMemoryItem();
+            recommendationMemoryItem.TagList = new List<string>() { outputQueryTagMovie };
+            recommendationMemoryItem.SetContent(recommendation);
+            ownerAgent.WorkingMemory.AddItem(recommendationMemoryItem);
+
+            // Return most similar user 
+            StringMemoryItem simUserMemoryItem = new StringMemoryItem();
+            simUserMemoryItem.TagList = new List<string>() { outputQueryTagSimUser };
+            simUserMemoryItem.SetContent(simUser);
+            ownerAgent.WorkingMemory.AddItem(simUserMemoryItem);
 
             AsynchronousDialogueItemEventArgs e = new AsynchronousDialogueItemEventArgs(originalContext, outputAction.TargetContext, outputAction.TargetID);
             OnRunCompleted(e);

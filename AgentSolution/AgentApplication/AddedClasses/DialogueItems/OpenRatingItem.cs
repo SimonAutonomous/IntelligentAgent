@@ -1,13 +1,10 @@
-﻿using AgentLibrary.DialogueItems;
-using AgentLibrary.Memories;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using AgentLibrary.DialogueItems;
+using AgentLibrary.Memories;
 
-namespace AgentApplication.AddedClasses
+namespace AgentApplication.AddedClasses.DialogueItems
 {
     class OpenRatingItem : DialogueItem
     {
