@@ -268,9 +268,8 @@ namespace InternetDataAcquisitionApplication
             }
             else if (requestSplit[0].ToUpper().TrimEnd(new char[] { ' ' }) == "IMDB")
             {
-                //var _ultraManager = UltraManager.Instance;
                 string txtMovieName = requestSplit[1].Replace(" ", "+");
-                string url = "http://www.omdbapi.com/?t=" + txtMovieName.Trim() + "&apikey=c983ca13";
+                string url = "http://www.omdbapi.com/?t=" + txtMovieName.Trim() + "&apikey=c983ca13"; //+ "&type=movie";
                 using (WebClient wc = new WebClient())
                 {
                     var json = wc.DownloadString(url);

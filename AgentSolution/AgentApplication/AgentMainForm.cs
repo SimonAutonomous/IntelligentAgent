@@ -463,7 +463,8 @@ namespace AgentApplication
                 inputTimeoutInterval, inputMaximumRepetitionCount, "", "");
             InputAction inputActionRC1 = new InputAction(recommendationDialogue.Context, "RC2");
             inputActionRC1.PatternList.Add(new Pattern("[Recommend Suggest] me a movie"));
-            inputActionRC1.PatternList.Add(new Pattern("Make me a * [recommendation suggestion]"));
+            inputActionRC1.PatternList.Add(new Pattern("Make me a movie suggestion"));
+            inputActionRC1.PatternList.Add(new Pattern("Give me a movie recommendation"));
             itemRC1.InputActionList.Add(inputActionRC1);
             recommendationDialogue.DialogueItemList.Add(itemRC1);
 

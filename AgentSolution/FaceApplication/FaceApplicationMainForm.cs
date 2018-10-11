@@ -278,11 +278,24 @@ namespace FaceApplication
                 face.Object3DList.Add(leftEyebrow);
                 face.Object3DList.Add(rightEyebrow);
 
+                TorusSector3D lip = new TorusSector3D();
+                lip.Name = "Lip";
+                lip.Generate(new List<double> {0.27, 0.01, 30, 30, 5 * Math.PI / 4 + 0.4, 7 * Math.PI / 4 - 0.4});
+                Color colorLip = Color.FromArgb(186, 74, 74);
+                lip.AmbientColor = colorLip;
+                lip.DiffuseColor = colorLip;
+                lip.SpecularColor = colorLip;
+                lip.Shininess = 100;
+                lip.RotateX(12);
+                lip.ShowSurfaces = true;
+                face.Object3DList.Add(lip);
+
                 face.Move(0, 0, -0.5);
                 leftEyeBulb.Move(-0.1375, -0.403, 0.645);
                 rightEyeBulb.Move(0.1375, -0.403, 0.645);
                 leftEyebrow.Move(-0.11, -0.325, 0.73);
                 rightEyebrow.Move(0.11, -0.325, 0.73);
+                lip.Move(0, -0.248, 0.485);
 
                 // Close eyes to start with:
                 leftEyeLid.RotateX(120);
