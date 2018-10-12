@@ -133,11 +133,6 @@ namespace AgentApplication
             _ultraManager.UserList.Add(user6);
             */
 
-            //foreach (var user in userList)
-            //{
-            //    Debug.WriteLine(user.Name);
-            //}
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AgentMainForm());
